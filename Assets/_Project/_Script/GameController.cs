@@ -27,20 +27,16 @@ public class GameController : MonoBehaviour
 
 	void EasyTouch_On_SwipeStart (Gesture gesture)
 	{
-		Debug.Log ("EasyTouch_On_SwipeStart");
 	}
 
 	void EasyTouch_On_Swipe (Gesture gesture)
 	{
-		
-//		Debug.Log (string.Format ("EasyTouch_On_Swipe: {0}", (gesture.position - gesture.startPosition).ToString()));
 		var inputVec = gesture.position - gesture.startPosition;
 		Player.InputVector (inputVec);
 	}
 
 	void EasyTouch_On_SwipeEnd (Gesture gesture)
 	{
-		Debug.Log ("EasyTouch_On_SwipeEnd");
 		Player.InputVector (Vector2.zero);
 	}
 

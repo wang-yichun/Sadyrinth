@@ -90,9 +90,10 @@ public class PlayerController : MonoBehaviour
 
 		force = EngineMaximumForceLimitFilter (force);
 
+		SetEnginePower (force);
+
 		rigidBody.AddForce (force, ForceMode.Force);
 
-		SetEnginePower (force);
 
 		AutoTorque ();
 	}

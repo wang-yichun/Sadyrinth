@@ -12,8 +12,14 @@ public class EngineController : MonoBehaviour
 	public float PowerToSmokeRate;
 	public float PowerToMainFireRate;
 
+	public EngineCheckerHandler EngineChecker;
+
 	public void SetPower (float power)
 	{
+		if (EngineChecker != null) {
+			EngineChecker.EnginePower = power;
+		}
+
 		Smoke1.emissionRate = power * PowerToSmokeRate;
 		Smoke2.emissionRate = power * PowerToSmokeRate;
 
