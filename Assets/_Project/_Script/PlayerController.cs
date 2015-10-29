@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-	private Rigidbody rigidBody;
+	private Rigidbody PlayerRigidBody;
+
 	public Vector2 inputVec;
 
 	public float AutoTorqueRate;
@@ -57,31 +58,31 @@ public class PlayerController : MonoBehaviour
 	public void AutoTorque ()
 	{
 		if (transform.up.x < 0) {
-			rigidBody.AddRelativeTorque (new Vector3 (0f, 0f, -AutoTorqueRate));	
+			PlayerRigidBody.AddRelativeTorque (new Vector3 (0f, 0f, -AutoTorqueRate));	
 		} else {
-			rigidBody.AddRelativeTorque (new Vector3 (0f, 0f, AutoTorqueRate));	
+			PlayerRigidBody.AddRelativeTorque (new Vector3 (0f, 0f, AutoTorqueRate));	
 		}
 	}
 
-	public void SetEnginePower (Vector3 force)
+	public void SetEnginePower (Rigidbody rigidbody, Vector3 force)
 	{
-		EngineBottom.SetPower (force.y);
+		EngineBottom.SetPower (rigidbody, force.y);
 
 		if (force.x > .1f) {
-			EngineLeft.SetPower (force.x);
-			EngineRight.SetPower (0);
+			EngineLeft.SetPower (rigidbody, force.x);
+			EngineRight.SetPower (rigidbody, 0);
 		} else if (force.x < .1f) {
-			EngineRight.SetPower (-force.x);
-			EngineLeft.SetPower (0);
+			EngineRight.SetPower (rigidbody, -force.x);
+			EngineLeft.SetPower (rigidbody, 0);
 		} else {
-			EngineRight.SetPower (0);
-			EngineLeft.SetPower (0);
+			EngineRight.SetPower (rigidbody, 0);
+			EngineLeft.SetPower (rigidbody, 0);
 		}
 	}
 
 	void Start ()
 	{
-		rigidBody = GetComponent<Rigidbody> ();
+		PlayerRigidBody = GetComponent<Rigidbody> ();
 	}
 
 	void FixedUpdate ()
@@ -90,11 +91,17 @@ public class PlayerController : MonoBehaviour
 
 		force = EngineMaximumForceLimitFilter (force);
 
-		SetEnginePower (force);
+		SetEnginePower (PlayerRigidBody, force);
 
-		rigidBody.AddForce (force, ForceMode.Force);
+		GameController.GetInstance ().Pad.SetEngineForce (force);
 
+//		PlayerRigidBody.AddForce (force, ForceMode.Force);
 
 		AutoTorque ();
+	}
+
+	void LateUpdate ()
+	{
+		GameController.GetInstance ().Pad.SetPadRotation (transform.rotation.eulerAngles);
 	}
 }

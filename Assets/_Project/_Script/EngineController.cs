@@ -14,8 +14,11 @@ public class EngineController : MonoBehaviour
 
 	public EngineCheckerHandler EngineChecker;
 
-	public void SetPower (float power)
+	public void SetPower (Rigidbody playerRigidbody, float power)
 	{
+//		Debug.Log ("name: " + this.transform.parent.name + "  power:" + (EngineChecker.transform.up * power).ToString ());
+		playerRigidbody.AddForce (-EngineChecker.transform.up * power, ForceMode.Force);
+//
 		if (EngineChecker != null) {
 			EngineChecker.EnginePower = power;
 		}

@@ -4,6 +4,14 @@ using System.Collections;
 public class GameController : MonoBehaviour
 {
 	public PlayerController Player;
+	public ControlPadController Pad;
+
+	private static GameController MyGameController;
+
+	public static GameController GetInstance ()
+	{
+		return MyGameController;
+	}
 
 	#region EasyTouch Subscribe
 
@@ -12,6 +20,9 @@ public class GameController : MonoBehaviour
 		EasyTouch.On_SwipeStart += EasyTouch_On_SwipeStart;
 		EasyTouch.On_Swipe += EasyTouch_On_Swipe;
 		EasyTouch.On_SwipeEnd += EasyTouch_On_SwipeEnd;
+
+		EasyTouch.On_TouchStart += EasyTouch_On_TouchStart;
+		EasyTouch.On_TouchUp += EasyTouch_On_TouchUp;
 	}
 
 	public void UnsubscribeEasyTouchEvents ()
@@ -19,24 +30,47 @@ public class GameController : MonoBehaviour
 		EasyTouch.On_SwipeStart -= EasyTouch_On_SwipeStart;
 		EasyTouch.On_Swipe -= EasyTouch_On_Swipe;
 		EasyTouch.On_SwipeEnd -= EasyTouch_On_SwipeEnd;
+
+		EasyTouch.On_TouchStart -= EasyTouch_On_TouchStart;
+		EasyTouch.On_TouchUp -= EasyTouch_On_TouchUp;
+	}
+
+
+
+	void EasyTouch_On_TouchStart (Gesture gesture)
+	{
+		Pad.Open ();
+		Pad.SetPadPosition (gesture.GetTouchToWorldPoint (0f));
+	}
+
+	void EasyTouch_On_TouchUp (Gesture gesture)
+	{
+		Pad.Close ();
 	}
 
 	#endregion
 
 	#region EasyTouch Control
 
+
 	void EasyTouch_On_SwipeStart (Gesture gesture)
 	{
+		OnSwipeStartPosition = gesture.startPosition;
+		Pad.Open ();
+		Pad.SetPadPosition (gesture.GetTouchToWorldPoint (0f), true);
 	}
+
+	Vector2 OnSwipeStartPosition;
 
 	void EasyTouch_On_Swipe (Gesture gesture)
 	{
-		var inputVec = gesture.position - gesture.startPosition;
+		var inputVec = gesture.position - OnSwipeStartPosition;
 		Player.InputVector (inputVec);
 	}
 
 	void EasyTouch_On_SwipeEnd (Gesture gesture)
 	{
+		Pad.Close ();
 		Player.InputVector (Vector2.zero);
 	}
 
@@ -45,6 +79,7 @@ public class GameController : MonoBehaviour
 	void Start ()
 	{
 		SubscribeEasyTouchEvents ();
+		MyGameController = this;
 	}
 
 	void OnDisable ()
