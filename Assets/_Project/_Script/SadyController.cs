@@ -25,9 +25,16 @@ public class SadyController : MonoBehaviour
 
 	public void GetByPlayer (GameObject player)
 	{
-
 		Instantiate (GotFXPrefab, transform.position, Quaternion.identity);
-
 		gameObject.SetActive (false);
+
+		GameController.GetInstance ().CurSadyCount--;
+
+		NotificationCenter.DefaultCenter.PostNotification (this, "set_sady_to",
+			new Hashtable () { 
+				{ "value", GameController.GetInstance ().CurSadyCount },
+				{ "total_value", GameController.GetInstance ().MaxSadyCount }
+			}
+		);
 	}
 }

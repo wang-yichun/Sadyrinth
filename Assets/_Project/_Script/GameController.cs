@@ -5,6 +5,10 @@ public class GameController : MonoBehaviour
 {
 	public PlayerController Player;
 	public ControlPadController Pad;
+	public Transform CollectableContainerTransform;
+
+	public int MaxSadyCount;
+	public int CurSadyCount;
 
 	private static GameController MyGameController;
 
@@ -82,6 +86,9 @@ public class GameController : MonoBehaviour
 				{ "value", 0f }
 			}
 		);
+		// Sady
+		MaxSadyCount = CollectableContainerTransform.childCount;
+		CurSadyCount = MaxSadyCount;
 	}
 
 	void Awake ()
