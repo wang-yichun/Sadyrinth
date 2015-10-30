@@ -8,6 +8,8 @@ public class SadyController : MonoBehaviour
 	public Transform SadyDots;
 	public Transform SadyCore;
 
+	public GameObject GotFXPrefab;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -23,8 +25,9 @@ public class SadyController : MonoBehaviour
 
 	public void GetByPlayer (GameObject player)
 	{
-		gameObject.SetActive (false);
 
-		// todo: FX
+		Instantiate (GotFXPrefab, transform.position, Quaternion.identity);
+
+		gameObject.SetActive (false);
 	}
 }
