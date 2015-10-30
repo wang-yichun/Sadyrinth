@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
 
 	public float EngineFuelPowerRate;
 
+	public GameObject CollisionFXPrefab;
+
 	public void InitPlayer ()
 	{
 		CurFuelValue = MaxFuelValue;
@@ -139,5 +141,21 @@ public class PlayerController : MonoBehaviour
 	void LateUpdate ()
 	{
 		GameController.GetInstance ().Pad.SetPadRotation (transform.rotation.eulerAngles);
+	}
+
+	void OnCollisionEnter (Collision collision)
+	{
+
+		Debug.Log ("OnCollisionEnter");
+
+		foreach (ContactPoint contact in collision.contacts) {
+//			Debug.DrawRay (contact.point, contact.normal, Color.white);
+
+			GameObject collisionFX = Instantiate (CollisionFXPrefab, contact.point, Quaternion.identity) as GameObject;
+		}
+
+		//		if (collision.relativeVelocity.magnitude > 2)
+		//			audio.Play(); 
+
 	}
 }
