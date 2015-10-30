@@ -6,8 +6,6 @@ public class GameController : MonoBehaviour
 	public PlayerController Player;
 	public ControlPadController Pad;
 
-	public tk2dTextMesh UIFuel;
-
 	private static GameController MyGameController;
 
 	public static GameController GetInstance ()
@@ -76,9 +74,14 @@ public class GameController : MonoBehaviour
 
 	#endregion
 
-	void InitUIData() {
+	void InitUIData ()
+	{
 		// 燃料
-		UIFuel.text = "0";
+		NotificationCenter.DefaultCenter.PostNotification (this, "set_fuel_to",
+			new Hashtable () { 
+				{ "value", 0f }
+			}
+		);
 	}
 
 	void Awake ()
@@ -88,6 +91,7 @@ public class GameController : MonoBehaviour
 
 	void Start ()
 	{
+		ResetGame ();
 		StartGame ();
 	}
 
@@ -102,15 +106,22 @@ public class GameController : MonoBehaviour
 	}
 
 	#region 游戏总控
+
+	void ResetGame ()
+	{
+		InitUIData ();
+		Player.InitPlayer ();
+	}
+
 	void StartGame ()
 	{
 		SubscribeEasyTouchEvents ();
-		InitUIData();
 	}
 
 	void EndGame ()
 	{
 		UnsubscribeEasyTouchEvents ();
 	}
+
 	#endregion
 }

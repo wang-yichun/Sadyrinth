@@ -14,10 +14,27 @@ public class PlayerController : MonoBehaviour
 	public EngineController EngineRight;
 
 	public float MaxFuelValue;
-	public float CurFuelValue;
+	public float curFuelValue;
+
+	public float CurFuelValue {
+		get { return curFuelValue; }
+		set { 
+			if (value < 0f)
+				value = 0f;
+			curFuelValue = value;
+			NotificationCenter.DefaultCenter.PostNotification (this, "set_fuel_to",
+				new Hashtable () { 
+					{ "value", curFuelValue }
+				}
+			);
+		}
+	}
+
+	public float EngineFuelPowerRate;
 
 	public void InitPlayer ()
 	{
+		CurFuelValue = MaxFuelValue;
 	}
 
 	public void InputVector (Vector2 vec)
@@ -73,18 +90,30 @@ public class PlayerController : MonoBehaviour
 
 	public void SetEnginePower (Rigidbody rigidbody, Vector3 force)
 	{
-		EngineBottom.SetPower (rigidbody, force.y);
+		if (CurFuelValue < .01f) {
+			CurFuelValue = 0f;
 
-		if (force.x > .1f) {
-			EngineLeft.SetPower (rigidbody, force.x);
-			EngineRight.SetPower (rigidbody, 0);
-		} else if (force.x < .1f) {
-			EngineRight.SetPower (rigidbody, -force.x);
 			EngineLeft.SetPower (rigidbody, 0);
+			EngineBottom.SetPower (rigidbody, 0);
+			EngineRight.SetPower (rigidbody, 0);
 		} else {
-			EngineRight.SetPower (rigidbody, 0);
-			EngineLeft.SetPower (rigidbody, 0);
+			
+			EngineBottom.SetPower (rigidbody, force.y);
+
+			if (force.x > .1f) {
+				EngineLeft.SetPower (rigidbody, force.x);
+				EngineRight.SetPower (rigidbody, 0);
+			} else if (force.x < .1f) {
+				EngineRight.SetPower (rigidbody, -force.x);
+				EngineLeft.SetPower (rigidbody, 0);
+			} else {
+				EngineRight.SetPower (rigidbody, 0);
+				EngineLeft.SetPower (rigidbody, 0);
+			}
+
+			CurFuelValue -= force.magnitude * EngineFuelPowerRate;
 		}
+
 	}
 
 	void Start ()
