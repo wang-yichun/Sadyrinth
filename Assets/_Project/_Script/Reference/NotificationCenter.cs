@@ -8,13 +8,18 @@ public class NotificationCenter : MonoBehaviour
 
 	public static NotificationCenter DefaultCenter {
 		get {
-			if (!defaultCenter) {
-				GameObject notificationObject = new GameObject ("Default Notification Center");
- 
-				defaultCenter = notificationObject.AddComponent<NotificationCenter> ();
-			}
+//			if (!defaultCenter) {
+//				GameObject notificationObject = new GameObject ("Default Notification Center");
+// 
+//				defaultCenter = notificationObject.AddComponent<NotificationCenter> ();
+//			}
 			return defaultCenter; 
 		}
+	}
+
+	void Awake ()
+	{
+		defaultCenter = this;
 	}
  
 	// Our hashtable containing all the notifications.  Each notification in the hash table is an ArrayList that contains all the observers for that notification.
