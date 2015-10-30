@@ -86,9 +86,17 @@ public class GameController : MonoBehaviour
 				{ "value", 0f }
 			}
 		);
+
 		// Sady
 		MaxSadyCount = CollectableContainerTransform.childCount;
 		CurSadyCount = MaxSadyCount;
+
+		NotificationCenter.DefaultCenter.PostNotification (this, "set_sady_to",
+			new Hashtable () { 
+				{ "value", GameController.GetInstance ().CurSadyCount },
+				{ "total_value", GameController.GetInstance ().MaxSadyCount }
+			}
+		);
 	}
 
 	void Awake ()
