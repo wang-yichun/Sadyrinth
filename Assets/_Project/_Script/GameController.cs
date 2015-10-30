@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour
 	public PlayerController Player;
 	public ControlPadController Pad;
 
+	public tk2dTextMesh UIFuel;
+
 	private static GameController MyGameController;
 
 	public static GameController GetInstance ()
@@ -34,8 +36,6 @@ public class GameController : MonoBehaviour
 		EasyTouch.On_TouchStart -= EasyTouch_On_TouchStart;
 		EasyTouch.On_TouchUp -= EasyTouch_On_TouchUp;
 	}
-
-
 
 	void EasyTouch_On_TouchStart (Gesture gesture)
 	{
@@ -76,10 +76,19 @@ public class GameController : MonoBehaviour
 
 	#endregion
 
+	void InitUIData() {
+		// 燃料
+		UIFuel.text = "0";
+	}
+
+	void Awake ()
+	{
+		MyGameController = this;
+	}
+
 	void Start ()
 	{
-		SubscribeEasyTouchEvents ();
-		MyGameController = this;
+		StartGame ();
 	}
 
 	void OnDisable ()
@@ -91,4 +100,17 @@ public class GameController : MonoBehaviour
 	{
 		UnsubscribeEasyTouchEvents ();
 	}
+
+	#region 游戏总控
+	void StartGame ()
+	{
+		SubscribeEasyTouchEvents ();
+		InitUIData();
+	}
+
+	void EndGame ()
+	{
+		UnsubscribeEasyTouchEvents ();
+	}
+	#endregion
 }

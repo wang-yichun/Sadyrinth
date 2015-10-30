@@ -13,6 +13,13 @@ public class PlayerController : MonoBehaviour
 	public EngineController EngineLeft;
 	public EngineController EngineRight;
 
+	public float MaxFuelValue;
+	public float CurFuelValue;
+
+	public void InitPlayer ()
+	{
+	}
+
 	public void InputVector (Vector2 vec)
 	{
 		inputVec = vec;
