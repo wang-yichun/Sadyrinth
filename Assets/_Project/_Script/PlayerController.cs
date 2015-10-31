@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
 	public float EngineFuelPowerRate;
 
 	public GameObject CollisionFXPrefab;
+	public GameObject CrashCollisionFXPrefab;
 
 	public void InitPlayer ()
 	{
@@ -144,14 +145,14 @@ public class PlayerController : MonoBehaviour
 	}
 
 
-	public Vector3 ImpulseTolerateGear;
-	public Vector3 ImpulseTolerateSpaceship;
+	public float CrashTolerateGear;
+	public float CrashTolerateSpaceship;
 	public float FrictionTolerateGear;
 	public float FrictionTolerateSpaceship;
 
 	void OnCollisionEnter (Collision collision)
 	{
-//		DoCollision (collision);
+		DoCollisionCrash (collision);
 	}
 
 	void OnCollisionStay (Collision collision)
@@ -159,47 +160,75 @@ public class PlayerController : MonoBehaviour
 		DoCollisionFriction (collision);
 	}
 
-	void DoCollisionFriction (Collision collision)
+	void DoCollisionCrash (Collision collision)
 	{
 		foreach (ContactPoint contact in collision.contacts) {
 
 			if (contact.thisCollider.CompareTag ("Player_Spaceship")) {
-//				if (Mathf.Abs (collision.impulse.x) > ImpulseTolerateSpaceship.x || Mathf.Abs (collision.impulse.y) > ImpulseTolerateSpaceship.y) {
+				if (collision.impulse.magnitude > CrashTolerateSpaceship) {
 
-				float f = (collision.relativeVelocity.magnitude * Mathf.Sin (Vector3.Angle (collision.relativeVelocity, -contact.normal)));
+					DoUnSafeCrashCollision (contact.point, contact.normal, (collision.impulse.magnitude - CrashTolerateSpaceship) / CrashTolerateSpaceship);
 
-				if (f > FrictionTolerateSpaceship) {
-					// unsafe-collision
-					GameObject collisionFX = Instantiate (CollisionFXPrefab, contact.point, Quaternion.identity) as GameObject;
+					Debug.Log (string.Format ("tag: {0}, f: {1}, rv: {2}", 
+						contact.thisCollider.tag, 
+						(collision.impulse.magnitude - CrashTolerateSpaceship) / CrashTolerateSpaceship, 
+						collision.relativeVelocity
+					));
+
 				}
-				Debug.Log (string.Format ("tag: {0}, f: {1}, rv: {2}", 
-					contact.thisCollider.tag, 
-					f, 
-					collision.relativeVelocity)
-				);
-
-//				}
 			} else if (contact.thisCollider.CompareTag ("Player_Gear")) {
-//				if (Mathf.Abs (collision.impulse.x) > ImpulseTolerateGear.x || Mathf.Abs (collision.impulse.y) > ImpulseTolerateGear.y) {
-				float f = (collision.relativeVelocity.magnitude * Mathf.Sin (Vector3.Angle (collision.relativeVelocity, -contact.normal)));
+				if (collision.impulse.magnitude > CrashTolerateGear) {
 
-				if (f > FrictionTolerateGear) {
-					// unsafe-collision
-					GameObject collisionFX = Instantiate (CollisionFXPrefab, contact.point, Quaternion.identity) as GameObject;
-				}	
-				Debug.Log (string.Format ("tag: {0}, f: {1}, rv: {2}", 
-					contact.thisCollider.tag, 
-					f, 
-					collision.relativeVelocity)
-				);
-//				}
+					DoUnSafeCrashCollision (contact.point, contact.normal, (collision.impulse.magnitude - CrashTolerateGear) / CrashTolerateGear);
+						
+					Debug.Log (string.Format ("tag: {0}, f: {1}, rv: {2}", 
+						contact.thisCollider.tag, 
+						(collision.impulse.magnitude - CrashTolerateGear) / CrashTolerateGear,
+						collision.relativeVelocity
+					));
+				}
 			}
 
 		}
 	}
 
-	void DoUnSafeCollision ()
+	void DoCollisionFriction (Collision collision)
 	{
+		foreach (ContactPoint contact in collision.contacts) {
+
+			if (contact.thisCollider.CompareTag ("Player_Spaceship")) {
+//				
+				float f = (collision.relativeVelocity.magnitude * Mathf.Sin (Vector3.Angle (collision.relativeVelocity, -contact.normal)));
+
+				if (f > FrictionTolerateSpaceship) {
+					// unsafe-collision
+					DoUnSafeFrictionCollision (contact.point, (f - FrictionTolerateSpaceship) / FrictionTolerateSpaceship);
+				}
+			} else if (contact.thisCollider.CompareTag ("Player_Gear")) {
+
+				float f = (collision.relativeVelocity.magnitude * Mathf.Sin (Vector3.Angle (collision.relativeVelocity, -contact.normal)));
+
+				if (f > FrictionTolerateGear) {
+					// unsafe-collision
+					DoUnSafeFrictionCollision (contact.point, (f - FrictionTolerateSpaceship) / FrictionTolerateSpaceship);
+				}
+			}
+
+		}
 	}
 
+	void DoUnSafeFrictionCollision (Vector3 position, float value)
+	{
+		GameObject collisionFXObject = Instantiate (CollisionFXPrefab, position, Quaternion.identity) as GameObject;
+		ParticleSystem collisionFX = collisionFXObject.GetComponent<ParticleSystem> ();
+		collisionFX.maxParticles = (int)Mathf.Lerp (1f, 30f, value);
+	}
+
+	void DoUnSafeCrashCollision (Vector3 position, Vector3 upVec, float value)
+	{
+		GameObject collisionFXObject = Instantiate (CrashCollisionFXPrefab, position, Quaternion.identity) as GameObject;
+		ParticleSystem collisionFX = collisionFXObject.GetComponent<ParticleSystem> ();
+		collisionFX.maxParticles = (int)Mathf.Lerp (1f, 30f, value);
+		collisionFX.transform.forward = upVec;
+	}
 }

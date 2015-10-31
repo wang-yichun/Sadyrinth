@@ -10,6 +10,13 @@ public class EngineCheckerHandler : MonoBehaviour
 
 	public float EnginePower;
 
+	private float ColliderLength;
+
+	void Start ()
+	{
+		ColliderLength = GetComponent<CapsuleCollider> ().height;
+	}
+
 	void OnTriggerEnter (Collider other)
 	{
 		if (other.CompareTag ("Wall")) {
@@ -39,7 +46,7 @@ public class EngineCheckerHandler : MonoBehaviour
 			// II.生成
 			PuffGroundParticleSystem = Instantiate<GameObject> (PuffGroundParticleSystemPrefab).GetComponent<ParticleSystem> ();
 			PuffGroundParticleSystem.transform.SetParent (transform);
-			SetParticleSystem (PuffGroundParticleSystem, raycastHit, EnginePower);
+			SetParticleSystem (PuffGroundParticleSystem, raycastHit, EnginePower, ColliderLength);
 		}
 	}
 
@@ -48,7 +55,7 @@ public class EngineCheckerHandler : MonoBehaviour
 		if (PuffGroundParticleSystem != null) {
 			RaycastHit raycastHit;
 			if (CalcPuffGroundHit (out raycastHit)) {
-				SetParticleSystem (PuffGroundParticleSystem, raycastHit, EnginePower);
+				SetParticleSystem (PuffGroundParticleSystem, raycastHit, EnginePower, ColliderLength);
 			}
 		}
 	}
@@ -66,12 +73,13 @@ public class EngineCheckerHandler : MonoBehaviour
 		return Physics.Raycast (transform.position, transform.up, out raycastHit);
 	}
 
-	static void SetParticleSystem (ParticleSystem particleSystem, RaycastHit raycastHit, float EnginePower)
+	static void SetParticleSystem (ParticleSystem particleSystem, RaycastHit raycastHit, float EnginePower, float checkerLength)
 	{
 		particleSystem.transform.position = raycastHit.point;
 		particleSystem.transform.forward = raycastHit.normal;
 
-		float startSizeScale = (1f - raycastHit.distance / 1.5f) * (EnginePower / 30f);
+//		float startSizeScale = (1f - raycastHit.distance / 1.5f) * (EnginePower / 30f);
+		float startSizeScale = (checkerLength - raycastHit.distance / checkerLength) * (EnginePower / 30f) * .5f;
 
 		particleSystem.startSize = startSizeScale;
 	}
