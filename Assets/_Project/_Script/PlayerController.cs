@@ -166,26 +166,11 @@ public class PlayerController : MonoBehaviour
 
 			if (contact.thisCollider.CompareTag ("Player_Spaceship")) {
 				if (collision.impulse.magnitude > CrashTolerateSpaceship) {
-
 					DoUnSafeCrashCollision (contact.point, contact.normal, (collision.impulse.magnitude - CrashTolerateSpaceship) / CrashTolerateSpaceship);
-
-					Debug.Log (string.Format ("tag: {0}, f: {1}, rv: {2}", 
-						contact.thisCollider.tag, 
-						(collision.impulse.magnitude - CrashTolerateSpaceship) / CrashTolerateSpaceship, 
-						collision.relativeVelocity
-					));
-
 				}
 			} else if (contact.thisCollider.CompareTag ("Player_Gear")) {
 				if (collision.impulse.magnitude > CrashTolerateGear) {
-
 					DoUnSafeCrashCollision (contact.point, contact.normal, (collision.impulse.magnitude - CrashTolerateGear) / CrashTolerateGear);
-						
-					Debug.Log (string.Format ("tag: {0}, f: {1}, rv: {2}", 
-						contact.thisCollider.tag, 
-						(collision.impulse.magnitude - CrashTolerateGear) / CrashTolerateGear,
-						collision.relativeVelocity
-					));
 				}
 			}
 
