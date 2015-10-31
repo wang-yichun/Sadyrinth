@@ -8,7 +8,7 @@ public class UIInGameController : MonoBehaviour
 	public tk2dTextMesh SadyValue;
 
 	// Use this for initialization
-	void Awake ()
+	void Start ()
 	{
 		NotificationCenter.DefaultCenter.AddObserver (this, "set_fuel_to");
 		NotificationCenter.DefaultCenter.AddObserver (this, "set_sady_to");
