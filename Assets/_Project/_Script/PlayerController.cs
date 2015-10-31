@@ -147,6 +147,8 @@ public class PlayerController : MonoBehaviour
 	{
 		foreach (ContactPoint contact in collision.contacts) {
 			GameObject collisionFX = Instantiate (CollisionFXPrefab, contact.point, Quaternion.identity) as GameObject;
+
+			Debug.Log (string.Format ("tag: {0}, impulse: {1}", contact.thisCollider.tag, collision.impulse));
 		}
 	}
 }
