@@ -3,8 +3,13 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
-	public PlayerController Player;
+	// 手动绑定
+	public MainCameraController MainCamera;
 	public ControlPadController Pad;
+
+	// 动态绑定
+	public Transform StageRoot;
+	public PlayerController Player;
 	public Transform CollectableContainerTransform;
 
 	public int MaxSadyCount;
@@ -124,6 +129,8 @@ public class GameController : MonoBehaviour
 
 	void ResetGame ()
 	{
+		LoadStage ("A001");
+
 		InitUIData ();
 		Player.InitPlayer ();
 	}
@@ -139,4 +146,40 @@ public class GameController : MonoBehaviour
 	}
 
 	#endregion
+
+	void UnloadStage ()
+	{
+		if (StageRoot != null) {
+			Destroy (StageRoot);
+			StageRoot = null;
+		}
+	}
+
+	void LoadStage (string stage_id)
+	{
+		UnloadStage ();
+
+		Transform StageRoot = null;
+
+		GameObject stageDebugContainer = GameObject.Find ("StageDebugContainer");
+		if (stageDebugContainer != null) {
+			if (stageDebugContainer.transform.childCount == 1) {
+				StageRoot = stageDebugContainer.transform.GetChild (0);
+			}
+		}
+
+		if (StageRoot == null) {
+			Transform stagePrefab = Resources.Load<Transform> (string.Format ("stage/{0}", stage_id));
+			StageRoot = Instantiate (stagePrefab);
+		}
+
+		Player = StageRoot.Find ("Player").GetComponent<PlayerController> ();
+		CollectableContainerTransform = StageRoot.Find ("CollectableContainer");
+
+		MainCamera.Player = Player;
+
+//		public Transform StageRoot;
+//		public PlayerController Player;
+//		public Transform CollectableContainerTransform;
+	}
 }

@@ -3,9 +3,10 @@ using System.Collections;
 
 public class MainCameraController : MonoBehaviour
 {
-	public PlayerController player;
 	public float LerpRate;
 	public Vector3 CameraOriginZeroPoint;
+
+	public PlayerController Player;
 
 	void LateUpdate ()
 	{
@@ -14,7 +15,9 @@ public class MainCameraController : MonoBehaviour
 
 	void SetCameraPosition ()
 	{
-		Vector3 playerCameraSurfPoint = new Vector3 (player.transform.position.x, player.transform.position.y, CameraOriginZeroPoint.z);
-		transform.position = Vector3.Lerp (playerCameraSurfPoint, CameraOriginZeroPoint, LerpRate);
+		if (Player != null) {
+			Vector3 playerCameraSurfPoint = new Vector3 (Player.transform.position.x, Player.transform.position.y, CameraOriginZeroPoint.z);
+			transform.position = Vector3.Lerp (playerCameraSurfPoint, CameraOriginZeroPoint, LerpRate);
+		}
 	}
 }
