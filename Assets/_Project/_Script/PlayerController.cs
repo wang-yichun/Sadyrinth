@@ -143,12 +143,63 @@ public class PlayerController : MonoBehaviour
 		GameController.GetInstance ().Pad.SetPadRotation (transform.rotation.eulerAngles);
 	}
 
+
+	public Vector3 ImpulseTolerateGear;
+	public Vector3 ImpulseTolerateSpaceship;
+	public float FrictionTolerateGear;
+	public float FrictionTolerateSpaceship;
+
 	void OnCollisionEnter (Collision collision)
 	{
-		foreach (ContactPoint contact in collision.contacts) {
-			GameObject collisionFX = Instantiate (CollisionFXPrefab, contact.point, Quaternion.identity) as GameObject;
+//		DoCollision (collision);
+	}
 
-			Debug.Log (string.Format ("tag: {0}, impulse: {1}", contact.thisCollider.tag, collision.impulse));
+	void OnCollisionStay (Collision collision)
+	{
+		DoCollisionFriction (collision);
+	}
+
+	void DoCollisionFriction (Collision collision)
+	{
+		foreach (ContactPoint contact in collision.contacts) {
+
+			if (contact.thisCollider.CompareTag ("Player_Spaceship")) {
+//				if (Mathf.Abs (collision.impulse.x) > ImpulseTolerateSpaceship.x || Mathf.Abs (collision.impulse.y) > ImpulseTolerateSpaceship.y) {
+
+				float f = (collision.relativeVelocity.magnitude * Mathf.Sin (Vector3.Angle (collision.relativeVelocity, -contact.normal)));
+
+				if (f > FrictionTolerateSpaceship) {
+					// unsafe-collision
+					GameObject collisionFX = Instantiate (CollisionFXPrefab, contact.point, Quaternion.identity) as GameObject;
+				}
+				Debug.Log (string.Format ("tag: {0}, f: {1}, rv: {2}", 
+					contact.thisCollider.tag, 
+					f, 
+					collision.relativeVelocity)
+				);
+
+//				}
+			} else if (contact.thisCollider.CompareTag ("Player_Gear")) {
+//				if (Mathf.Abs (collision.impulse.x) > ImpulseTolerateGear.x || Mathf.Abs (collision.impulse.y) > ImpulseTolerateGear.y) {
+				float f = (collision.relativeVelocity.magnitude * Mathf.Sin (Vector3.Angle (collision.relativeVelocity, -contact.normal)));
+
+				if (f > FrictionTolerateGear) {
+					// unsafe-collision
+					GameObject collisionFX = Instantiate (CollisionFXPrefab, contact.point, Quaternion.identity) as GameObject;
+				}	
+				Debug.Log (string.Format ("tag: {0}, f: {1}, rv: {2}", 
+					contact.thisCollider.tag, 
+					f, 
+					collision.relativeVelocity)
+				);
+//				}
+			}
+
 		}
 	}
+
+	void DoUnSafeCollision ()
+	{
+	}
+
 }
