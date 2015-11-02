@@ -126,6 +126,7 @@ public class GameController : MonoBehaviour
 	#region 游戏总控
 
 	string LastStartStageID;
+	public bool isPause;
 
 	public void ResetGame (string stage_id)
 	{
@@ -142,16 +143,30 @@ public class GameController : MonoBehaviour
 
 		InitUIData ();
 		Player.InitPlayer ();
+
+		PauseGame ();
 	}
 
 	public void StartGame ()
 	{
 		SubscribeEasyTouchEvents ();
+		ResumeGame ();
 	}
 
 	public void EndGame ()
 	{
+		PauseGame ();
 		UnsubscribeEasyTouchEvents ();
+	}
+
+	public void PauseGame() {
+		Time.timeScale = 0;
+		isPause = true;
+	}
+
+	public void ResumeGame() {
+		Time.timeScale = 1;
+		isPause = false;
 	}
 
 	#endregion

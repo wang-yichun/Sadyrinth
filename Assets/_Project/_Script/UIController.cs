@@ -61,6 +61,13 @@ public class UIController : MonoBehaviour
 	public void InGame_PauseButton_OnClick ()
 	{
 		Debug.Log ("InGame_PauseButton_OnClick");
+
+		GameController game = GameController.GetInstance ();
+		if (game.isPause) {
+			game.ResumeGame ();
+		} else {
+			game.PauseGame ();
+		}
 	}
 
 	#endregion
