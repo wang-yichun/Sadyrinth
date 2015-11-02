@@ -8,10 +8,34 @@ public class UIController : MonoBehaviour
 	public RootCanvasBase InGame;
 	public RootCanvasBase PauseMenu;
 
+
+	public bool IsStageDebug;
+
 	void Start ()
 	{
 		CloseAll ();
-		MainMenu.Open ();
+
+		#region StageDebug
+		string debugStageId = null;
+		GameObject stageDebugContainer = GameObject.Find ("StageDebugContainer");
+		if (stageDebugContainer != null) {
+			if (stageDebugContainer.transform.childCount == 1) {
+				debugStageId = stageDebugContainer.transform.GetChild (0).name;
+				IsStageDebug = true;
+			}
+		}
+		#endregion
+
+		if (IsStageDebug) {
+			// 关卡测试流程
+			InGame.Open ();
+			GameController game = GameController.GetInstance ();
+			game.ResetGame (debugStageId);
+			game.StartGame ();
+		} else {
+			// 正常流程
+			MainMenu.Open ();
+		}
 	}
 
 	void CloseAll ()

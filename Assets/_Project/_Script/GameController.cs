@@ -177,7 +177,7 @@ public class GameController : MonoBehaviour
 	void UnloadStage ()
 	{
 		if (StageRoot != null) {
-			Destroy (StageRoot.gameObject);
+			DestroyImmediate (StageRoot.gameObject);
 			StageRoot = null;
 		}
 	}
