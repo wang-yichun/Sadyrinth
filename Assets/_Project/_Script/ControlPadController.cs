@@ -10,6 +10,9 @@ public class ControlPadController : MonoBehaviour
 	public Transform Pointer;
 
 	public void Start() {
+		Pointer.GetComponent<SpriteRenderer> ().enabled = true;
+		Pad.GetComponent<SpriteRenderer> ().enabled = true;
+
 		Pointer.GetComponent<SpriteRenderer> ().material.color = new Color (1f, 1f, 1f, 0f);
 		Pad.GetComponent<SpriteRenderer> ().material.color = new Color (1f, 1f, 1f, 0f);
 	}

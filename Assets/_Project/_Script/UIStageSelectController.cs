@@ -81,6 +81,8 @@ public class UIStageSelectController : RootCanvasBase
 			StartButton.interactable = true;
 			StartButton.GetComponentInChildren<tk2dTextMesh> ().text = string.Format ("Start: {0}", stage_id);
 		}
+
+		DataHandler.SaveAutoSelectStageID (stage_id);
 	}
 }
 
