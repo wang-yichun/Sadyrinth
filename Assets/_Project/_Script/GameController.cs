@@ -111,8 +111,6 @@ public class GameController : MonoBehaviour
 
 	void Start ()
 	{
-		ResetGame ();
-		StartGame ();
 	}
 
 	void OnDisable ()
@@ -127,20 +125,27 @@ public class GameController : MonoBehaviour
 
 	#region 游戏总控
 
-	void ResetGame ()
+	string LastStartStageID;
+
+	public void ResetGame (string stage_id)
 	{
-		LoadStage ("A001");
+		if (stage_id == null) {
+			stage_id = LastStartStageID;
+		}
+			
+		LoadStage (stage_id);
+		LastStartStageID = stage_id;
 
 		InitUIData ();
 		Player.InitPlayer ();
 	}
 
-	void StartGame ()
+	public void StartGame ()
 	{
 		SubscribeEasyTouchEvents ();
 	}
 
-	void EndGame ()
+	public void EndGame ()
 	{
 		UnsubscribeEasyTouchEvents ();
 	}

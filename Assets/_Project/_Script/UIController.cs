@@ -3,21 +3,56 @@ using System.Collections;
 
 public class UIController : MonoBehaviour
 {
+	public RootCanvasBase MainMenu;
+	public RootCanvasBase StageSelect;
+	public RootCanvasBase InGame;
 
-	// Use this for initialization
 	void Start ()
 	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	
+		CloseAll ();
+		MainMenu.Open ();
 	}
 
-	void message_001 ()
+	void CloseAll ()
 	{
-		Debug.Log ("Message_001");
+		MainMenu.gameObject.SetActive (false);
+		StageSelect.gameObject.SetActive (false);
+		InGame.gameObject.SetActive (false);
 	}
+
+	#region MainMenu
+
+	public void MainMenu_ExitButton_OnClick ()
+	{
+		Application.Quit ();
+	}
+
+	public void MainMenu_PlayButton_OnClick ()
+	{
+		MainMenu.Close ();
+		StageSelect.Open ();
+	}
+
+	#endregion
+
+	#region StageSelect
+
+	public void StageSelect_BackButton_OnClick ()
+	{
+		StageSelect.Close ();
+		MainMenu.Open ();
+	}
+
+	public void StageSelect_StartButton_OnClick ()
+	{
+		string StageIDSelected = GetComponentInChildren<UIStageSelectController> ().StageIDSelected;
+
+		StageSelect.Close ();
+		InGame.Open ();
+
+		GameController.GetInstance ().ResetGame (StageIDSelected);
+		GameController.GetInstance ().StartGame ();
+	}
+
+	#endregion
 }
