@@ -55,4 +55,13 @@ public class UIController : MonoBehaviour
 	}
 
 	#endregion
+
+	#region InGame
+
+	public void InGame_PauseButton_OnClick ()
+	{
+		Debug.Log ("InGame_PauseButton_OnClick");
+	}
+
+	#endregion
 }

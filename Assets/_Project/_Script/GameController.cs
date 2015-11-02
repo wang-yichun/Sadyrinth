@@ -136,6 +136,10 @@ public class GameController : MonoBehaviour
 		LoadStage (stage_id);
 		LastStartStageID = stage_id;
 
+		NotificationCenter.DefaultCenter.PostNotification (this, "set_stage_id_to", new Hashtable () {
+			{ "value", stage_id }
+		});
+
 		InitUIData ();
 		Player.InitPlayer ();
 	}
