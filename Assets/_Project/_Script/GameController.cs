@@ -157,14 +157,17 @@ public class GameController : MonoBehaviour
 	{
 		PauseGame ();
 		UnsubscribeEasyTouchEvents ();
+		UnloadStage ();
 	}
 
-	public void PauseGame() {
+	public void PauseGame ()
+	{
 		Time.timeScale = 0;
 		isPause = true;
 	}
 
-	public void ResumeGame() {
+	public void ResumeGame ()
+	{
 		Time.timeScale = 1;
 		isPause = false;
 	}
@@ -174,7 +177,7 @@ public class GameController : MonoBehaviour
 	void UnloadStage ()
 	{
 		if (StageRoot != null) {
-			Destroy (StageRoot);
+			Destroy (StageRoot.gameObject);
 			StageRoot = null;
 		}
 	}
@@ -182,8 +185,6 @@ public class GameController : MonoBehaviour
 	void LoadStage (string stage_id)
 	{
 		UnloadStage ();
-
-		Transform StageRoot = null;
 
 		GameObject stageDebugContainer = GameObject.Find ("StageDebugContainer");
 		if (stageDebugContainer != null) {
