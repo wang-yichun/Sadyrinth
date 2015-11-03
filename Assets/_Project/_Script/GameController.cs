@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
 	public Transform CollectableContainerTransform;
 
 	public int MaxSadyCount;
-	public int CurSadyCount;
+	public int RemainSadyCount;
 
 	private static GameController MyGameController;
 
@@ -94,11 +94,11 @@ public class GameController : MonoBehaviour
 
 		// Sady
 		MaxSadyCount = CollectableContainerTransform.childCount;
-		CurSadyCount = MaxSadyCount;
+		RemainSadyCount = MaxSadyCount;
 
 		NotificationCenter.DefaultCenter.PostNotification (this, "set_sady_to",
 			new Hashtable () { 
-				{ "value", GameController.GetInstance ().CurSadyCount },
+				{ "value", GameController.GetInstance ().RemainSadyCount },
 				{ "total_value", GameController.GetInstance ().MaxSadyCount }
 			}
 		);
@@ -126,7 +126,8 @@ public class GameController : MonoBehaviour
 	#region 游戏总控
 
 	string LastStartStageID;
-	public bool isPause;
+	public bool IsPause;
+	public float TimePassed;
 
 	public void ResetGame (string stage_id)
 	{
@@ -150,6 +151,7 @@ public class GameController : MonoBehaviour
 	public void StartGame ()
 	{
 		SubscribeEasyTouchEvents ();
+		AddObserver_Player ();
 		ResumeGame ();
 	}
 
@@ -157,19 +159,20 @@ public class GameController : MonoBehaviour
 	{
 		PauseGame ();
 		UnsubscribeEasyTouchEvents ();
+		RemoveObserver_Player ();
 		UnloadStage ();
 	}
 
 	public void PauseGame ()
 	{
 		Time.timeScale = 0;
-		isPause = true;
+		IsPause = true;
 	}
 
 	public void ResumeGame ()
 	{
 		Time.timeScale = 1;
-		isPause = false;
+		IsPause = false;
 	}
 
 	#endregion
@@ -207,4 +210,26 @@ public class GameController : MonoBehaviour
 //		public PlayerController Player;
 //		public Transform CollectableContainerTransform;
 	}
+
+	#region 降落区检测
+
+	void AddObserver_Player ()
+	{
+		NotificationCenter.DefaultCenter.AddObserver (this, "player_landing_success");
+	}
+
+	void RemoveObserver_Player ()
+	{
+		NotificationCenter.DefaultCenter.RemoveObserver (this, "player_landing_success");
+	}
+
+	void player_landing_success (NotificationCenter.Notification notification)
+	{
+		if (this.RemainSadyCount == 0) {
+			Debug.Log ("Win!");
+			PauseGame ();
+		}
+	}
+
+	#endregion
 }

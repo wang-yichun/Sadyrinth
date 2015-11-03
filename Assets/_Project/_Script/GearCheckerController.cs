@@ -8,14 +8,14 @@ public class GearCheckerController : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.CompareTag ("Wall")) {
+		if (other.CompareTag ("Wall") || other.CompareTag ("Base")) {
 			Gear.GearDown ();
 		}
 	}
 
 	void OnTriggerExit (Collider other)
 	{
-		if (other.CompareTag ("Wall")) {
+		if (other.CompareTag ("Wall") || other.CompareTag ("Base")) {
 			Gear.GearUp ();
 		}
 	}

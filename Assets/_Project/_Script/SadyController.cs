@@ -28,11 +28,11 @@ public class SadyController : MonoBehaviour
 		Instantiate (GotFXPrefab, transform.position, Quaternion.identity);
 		gameObject.SetActive (false);
 
-		GameController.GetInstance ().CurSadyCount--;
+		GameController.GetInstance ().RemainSadyCount--;
 
 		NotificationCenter.DefaultCenter.PostNotification (this, "set_sady_to",
 			new Hashtable () { 
-				{ "value", GameController.GetInstance ().CurSadyCount },
+				{ "value", GameController.GetInstance ().RemainSadyCount },
 				{ "total_value", GameController.GetInstance ().MaxSadyCount }
 			}
 		);

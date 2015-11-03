@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-	private Rigidbody PlayerRigidBody;
+	public Rigidbody PlayerRigidBody;
 
 	public Vector2 inputVec;
 

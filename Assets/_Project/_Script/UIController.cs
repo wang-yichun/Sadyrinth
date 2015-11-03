@@ -87,7 +87,7 @@ public class UIController : MonoBehaviour
 	public void InGame_PauseButton_OnClick ()
 	{
 		GameController game = GameController.GetInstance ();
-		if (game.isPause) {
+		if (game.IsPause) {
 			game.ResumeGame ();
 			PauseMenu.Close ();
 		} else {
