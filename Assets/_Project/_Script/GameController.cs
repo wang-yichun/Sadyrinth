@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 	// 手动绑定
 	public MainCameraController MainCamera;
 	public ControlPadController Pad;
+	public UIController UIController;
 
 	// 动态绑定
 	public Transform StageRoot;
@@ -125,9 +126,14 @@ public class GameController : MonoBehaviour
 
 	#region 游戏总控
 
-	string LastStartStageID;
+	public string LastStartStageID;
 	public bool IsPause;
 	public float TimePassed;
+
+	void FixedUpdate ()
+	{
+		TimePassed += Time.fixedDeltaTime;
+	}
 
 	public void ResetGame (string stage_id)
 	{
@@ -145,6 +151,7 @@ public class GameController : MonoBehaviour
 		InitUIData ();
 		Player.InitPlayer ();
 
+		TimePassed = 0f;
 		PauseGame ();
 	}
 
@@ -153,6 +160,8 @@ public class GameController : MonoBehaviour
 		SubscribeEasyTouchEvents ();
 		AddObserver_Player ();
 		ResumeGame ();
+
+		UIController.InGame.SetAllButtonInteractable (true);
 	}
 
 	public void EndGame ()
@@ -225,9 +234,22 @@ public class GameController : MonoBehaviour
 
 	void player_landing_success (NotificationCenter.Notification notification)
 	{
-		if (this.RemainSadyCount == 0) {
-			Debug.Log ("Win!");
-			PauseGame ();
+		if (this.IsPause == false) {
+			if (this.RemainSadyCount == 0) {
+				PauseGame ();
+				UIController.Win.Open ();
+
+				UIController.InGame.SetAllButtonInteractable (false);
+
+				UIWinController winController = UIController.Win as UIWinController;
+
+				winController.StatisticsLike.SetData (new StatisticsInfo (
+					stage_id: this.LastStartStageID,
+					sady_gotten: this.MaxSadyCount - this.RemainSadyCount,
+					time_used: this.TimePassed,
+					fuel_remain: this.Player.CurFuelValue
+				));
+			}
 		}
 	}
 

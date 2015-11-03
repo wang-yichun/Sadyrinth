@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UIPauseMenuController : RootCanvasBase {
+public class UIPauseMenuController : RootCanvasBase
+{
+	public PauseStatisticsLike StatisticsLike;
 
 	public override void CanvasInEnd ()
 	{
@@ -12,4 +14,6 @@ public class UIPauseMenuController : RootCanvasBase {
 	{
 		base.CanvasOutStart ();
 	}
+
+
 }

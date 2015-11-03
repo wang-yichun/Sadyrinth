@@ -141,7 +141,10 @@ public class PlayerController : MonoBehaviour
 
 	void LateUpdate ()
 	{
-		GameController.GetInstance ().Pad.SetPadRotation (transform.rotation.eulerAngles);
+		GameController game = GameController.GetInstance ();
+		if (game.Pad != null) {
+			game.Pad.SetPadRotation (transform.rotation.eulerAngles);
+		}
 	}
 
 

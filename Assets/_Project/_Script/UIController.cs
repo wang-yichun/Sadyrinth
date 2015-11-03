@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 	public RootCanvasBase StageSelect;
 	public RootCanvasBase InGame;
 	public RootCanvasBase PauseMenu;
+	public RootCanvasBase Win;
 
 
 	public bool IsStageDebug;
@@ -44,6 +45,7 @@ public class UIController : MonoBehaviour
 		StageSelect.gameObject.SetActive (false);
 		InGame.gameObject.SetActive (false);
 		PauseMenu.gameObject.SetActive (false);
+		Win.gameObject.SetActive (false);
 	}
 
 	#region MainMenu
@@ -87,12 +89,21 @@ public class UIController : MonoBehaviour
 	public void InGame_PauseButton_OnClick ()
 	{
 		GameController game = GameController.GetInstance ();
+
 		if (game.IsPause) {
 			game.ResumeGame ();
 			PauseMenu.Close ();
 		} else {
 			game.PauseGame ();
 			PauseMenu.Open ();
+
+			UIPauseMenuController pauseMenuController = PauseMenu as UIPauseMenuController;
+			pauseMenuController.StatisticsLike.SetData (new StatisticsInfo (
+				stage_id: game.LastStartStageID,
+				sady_gotten: game.MaxSadyCount - game.RemainSadyCount,
+				time_used: game.TimePassed,
+				fuel_remain: game.Player.CurFuelValue
+			));
 		}
 	}
 
@@ -125,6 +136,41 @@ public class UIController : MonoBehaviour
 		GameController game = GameController.GetInstance ();
 		game.EndGame ();
 		game.ResetGame (null);
+		game.StartGame ();
+	}
+
+	#endregion
+
+	#region Win
+
+	public void Win_MainMenuButton_OnClick ()
+	{
+		GameController game = GameController.GetInstance ();
+		game.EndGame ();
+
+		Win.Close ();
+		InGame.Close ();
+		StageSelect.Open ();
+	}
+
+	public void Win_ReplayButton_OnClick ()
+	{
+		Win.Close ();
+
+		GameController game = GameController.GetInstance ();
+		game.EndGame ();
+		game.ResetGame (null);
+		game.StartGame ();
+	}
+
+	public void Win_NextStageButton_OnClick ()
+	{
+		Win.Close ();
+
+		GameController game = GameController.GetInstance ();
+		string nextStageID = GameHelper.GetNextStageId (game.LastStartStageID);
+		game.EndGame ();
+		game.ResetGame (nextStageID);
 		game.StartGame ();
 	}
 

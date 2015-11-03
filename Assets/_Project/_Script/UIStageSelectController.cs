@@ -41,11 +41,17 @@ public class UIStageSelectController : RootCanvasBase
 	void PrepareStageInfoListByWorldID (int world_id)
 	{
 		StageSelectItemList = new List<StageSelectItem> ();
-		for (int i = 0; i < DataHandler.WorldStageCount [world_id]; i++) {
-			string stage_id = string.Format ("{0:00}-{1:00}", world_id + 1, i + 1);
+
+
+		for (int i = 0; i < DataController.GetInstance ().WorldStageCount [world_id]; i++) {
+
+//			string stage_id = string.Format ("{0:00}-{1:00}", world_id + 1, i + 1);
+			string stage_id = WorldStage.CreateWithWorldIdxAndStageIdx (world_id, i).ToString ();
+
 			StageSelectItemList.Add (new StageSelectItem () {
 				stage_id = stage_id,
-				score = DataHandler.LoadScoreByStageID (stage_id)
+//				score = DataHandler.LoadScoreByStageID (stage_id)
+				score = DataController.GetInstance ().GetStageData (stage_id).high_score
 			});
 		}
 	}
