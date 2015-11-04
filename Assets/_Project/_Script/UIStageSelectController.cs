@@ -22,13 +22,12 @@ public class UIStageSelectController : RootCanvasBase
 		PrepareStageInfoListByWorldID (0); // 暂时只有一个世界的
 
 		RefreshStageInfo ();
-//		StageIDSelected = DataHandler.LoadAutoSelectStageID ();
 		StageIDSelected = DataController.GetInstance ().Common.auto_selected_stage_id;
 		SelectStage (StageIDSelected);
 
 		NotificationCenter.DefaultCenter.AddObserver (this, "stage_button_click");
 
-//		EasyTouch.On_TouchStart += ET_CloseStageButtonDetailMenu;
+		EasyTouch.On_TouchStart += ET_CloseStageButtonDetailMenu;
 	}
 
 	public override void CanvasOutStart ()
@@ -36,7 +35,7 @@ public class UIStageSelectController : RootCanvasBase
 		base.CanvasOutStart ();
 		NotificationCenter.DefaultCenter.RemoveObserver (this, "stage_button_click");
 
-//		EasyTouch.On_TouchStart -= ET_CloseStageButtonDetailMenu;
+		EasyTouch.On_TouchStart -= ET_CloseStageButtonDetailMenu;
 	}
 
 	void stage_button_click (NotificationCenter.Notification notification)
