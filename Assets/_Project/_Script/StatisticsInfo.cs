@@ -38,14 +38,16 @@ public class StatisticsInfo
 
 	public void CalcScore ()
 	{
-		MechanismController mechanism;
-		if (GameController.GetInstance ().StageRoot.name == StageId) {
-			mechanism = GameController.GetInstance ().StageRoot.GetComponentInChildren<MechanismController> ();
+//		MechanismController mechanism;
+//		if (GameController.GetInstance ().StageRoot.name == StageId) {
+//			mechanism = GameController.GetInstance ().StageRoot.GetComponentInChildren<MechanismController> ();
+//
+//		} else {
+//			Transform stagePrefab = Resources.Load<Transform> (string.Format ("stage/{0}", StageId));
+//			mechanism = stagePrefab.GetComponentInChildren<MechanismController> ();
+//		}
 
-		} else {
-			Transform stagePrefab = Resources.Load<Transform> (string.Format ("stage/{0}", StageId));
-			mechanism = stagePrefab.GetComponentInChildren<MechanismController> ();
-		}
+
 
 		StageIdScore = mechanism.BaseScore;
 
