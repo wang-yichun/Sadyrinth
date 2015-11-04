@@ -164,6 +164,8 @@ public class GameController : MonoBehaviour
 		AddObserver_Player ();
 		ResumeGame ();
 
+		NotificationCenter.DefaultCenter.PostNotification (this, "start_game_reset");
+
 		UIController.InGame.SetAllButtonInteractable (true);
 	}
 
@@ -228,16 +230,18 @@ public class GameController : MonoBehaviour
 
 	#endregion
 
-	#region 降落区检测
+	#region 降落区检测 / 油料耗尽检测
 
 	void AddObserver_Player ()
 	{
 		NotificationCenter.DefaultCenter.AddObserver (this, "player_landing_success");
+		NotificationCenter.DefaultCenter.AddObserver (this, "player_no_fuel");
 	}
 
 	void RemoveObserver_Player ()
 	{
 		NotificationCenter.DefaultCenter.RemoveObserver (this, "player_landing_success");
+		NotificationCenter.DefaultCenter.RemoveObserver (this, "player_no_fuel");
 	}
 
 	void player_landing_success (NotificationCenter.Notification notification)
@@ -253,6 +257,7 @@ public class GameController : MonoBehaviour
 
 				winController.StatisticsLike.SetData (new StatisticsInfo (
 					stage_id: this.LastStartStageID,
+					mode : StatisticsInfo.StatisticsInfoMode.win,
 					sady_gotten: this.MaxSadyCount - this.RemainSadyCount,
 					time_used: this.TimePassed,
 					fuel_remain: this.Player.CurFuelValue
@@ -265,6 +270,27 @@ public class GameController : MonoBehaviour
 					stageData.high_score = current_score;
 				}
 			}
+		}
+	}
+
+	void player_no_fuel (NotificationCenter.Notification notification)
+	{
+		Debug.Log ("player_no_fuel");
+		if (this.IsPause == false) {
+			PauseGame ();
+			UIController.Lose.Open ();
+
+			UIController.InGame.SetAllButtonInteractable (false);
+
+			UILoseController loseController = UIController.Lose as UILoseController;
+
+			loseController.StatisticsLike.SetData (new StatisticsInfo (
+				stage_id: this.LastStartStageID,
+				mode : StatisticsInfo.StatisticsInfoMode.lose,
+				sady_gotten: this.MaxSadyCount - this.RemainSadyCount,
+				time_used: this.TimePassed,
+				fuel_remain: this.Player.CurFuelValue
+			));
 		}
 	}
 

@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
 	public RootCanvasBase InGame;
 	public RootCanvasBase PauseMenu;
 	public RootCanvasBase Win;
+	public RootCanvasBase Lose;
 
 
 	public bool IsStageDebug;
@@ -46,6 +47,7 @@ public class UIController : MonoBehaviour
 		InGame.gameObject.SetActive (false);
 		PauseMenu.gameObject.SetActive (false);
 		Win.gameObject.SetActive (false);
+		Lose.gameObject.SetActive (false);
 	}
 
 	#region MainMenu
@@ -100,6 +102,7 @@ public class UIController : MonoBehaviour
 			UIPauseMenuController pauseMenuController = PauseMenu as UIPauseMenuController;
 			pauseMenuController.StatisticsLike.SetData (new StatisticsInfo (
 				stage_id: game.LastStartStageID,
+				mode : StatisticsInfo.StatisticsInfoMode.pause,
 				sady_gotten: game.MaxSadyCount - game.RemainSadyCount,
 				time_used: game.TimePassed,
 				fuel_remain: game.Player.CurFuelValue
@@ -181,6 +184,30 @@ public class UIController : MonoBehaviour
 			game.ResetGame (nextStageID);
 			game.StartGame ();
 		}
+	}
+
+	#endregion
+
+	#region Lose
+
+	public void Lose_MainMenuButton_OnClick ()
+	{
+		GameController game = GameController.GetInstance ();
+		game.EndGame ();
+
+		Lose.Close ();
+		InGame.Close ();
+		StageSelect.Open ();
+	}
+
+	public void Lose_TryAgainButton_OnClick ()
+	{
+		Lose.Close ();
+
+		GameController game = GameController.GetInstance ();
+		game.EndGame ();
+		game.ResetGame (null);
+		game.StartGame ();
 	}
 
 	#endregion

@@ -8,22 +8,23 @@ public class StatisticsInfo
 	{
 	}
 
-	public StatisticsInfo (string stage_id, int sady_gotten, float time_used, float fuel_remain)
+	public StatisticsInfo (string stage_id, StatisticsInfoMode mode, int sady_gotten, float time_used, float fuel_remain)
 	{
-		SadyGotten = sady_gotten;
 		StageId = stage_id;
+		Mode = mode;
+		SadyGotten = sady_gotten;
 		TimeUsed = time_used;
 		FuelRemain = fuel_remain;
 	}
 
-//	public enum StatisticsInfoMode
-//	{
-//		pause,
-//		win,
-//		lose
-//	}
-//
-//	public StatisticsInfoMode mode;
+	public enum StatisticsInfoMode
+	{
+		pause,
+		win,
+		lose
+	}
+
+	public StatisticsInfoMode Mode;
 
 	public string StageId;
 	public int SadyGotten;

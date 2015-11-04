@@ -3,7 +3,23 @@ using System.Collections;
 
 public class BaseCheckerController : MonoBehaviour
 {
-	
+
+	void Start ()
+	{
+		NotificationCenter.DefaultCenter.AddObserver (this, "start_game_reset");
+	}
+
+	void OnDestroy ()
+	{
+		NotificationCenter.DefaultCenter.RemoveObserver (this, "start_game_reset");
+	}
+
+	void start_game_reset (NotificationCenter.Notification notification)
+	{
+		Debug.Log ("start_game_reset @ BaseCheckerController");
+		ResetPassCheck ();
+	}
+
 	void OnTriggerEnter (Collider other)
 	{
 	}
@@ -17,8 +33,13 @@ public class BaseCheckerController : MonoBehaviour
 	{
 	}
 
-	public float passCheckTime;
-	public float passCheckTimeMax;
+	public float passCheckTime_Landing;
+	public float passCheckTimeMax_Landing;
+
+	public void ResetPassCheck ()
+	{
+		passCheckTime_Landing = 0f;
+	}
 
 	void CheckPlayerLanding ()
 	{
@@ -32,14 +53,15 @@ public class BaseCheckerController : MonoBehaviour
 		}
 
 		if (passStepCheck) {
-			passCheckTime += Time.fixedDeltaTime;
+			passCheckTime_Landing += Time.fixedDeltaTime;
 		} else {
-			passCheckTime = 0f;
+			passCheckTime_Landing = 0f;
 		}
 
-		if (passCheckTime >= passCheckTimeMax) {
+		if (passCheckTime_Landing >= passCheckTimeMax_Landing) {
+			passCheckTime_Landing = 0f;
 			NotificationCenter.DefaultCenter.PostNotification (this, "player_landing_success");
 		}
-
 	}
+
 }

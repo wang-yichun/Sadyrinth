@@ -40,7 +40,8 @@ public class EngineCheckerHandler : MonoBehaviour
 
 	void PuffGroundFX_Start ()
 	{
-		// I.找到释放的位置
+		PuffGroundFX_End ();
+
 		RaycastHit raycastHit;
 		if (CalcPuffGroundHit (out raycastHit)) { 
 			// II.生成

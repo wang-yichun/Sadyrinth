@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GameDataEditor;
 
 [System.Serializable]
 public class PauseStatisticsLike
@@ -33,7 +34,23 @@ public class PauseStatisticsLike
 
 	public void RefreshStatistics_Score ()
 	{
-		string pattern = "{0}\n{1}\n+{2}\n{3}";
-		StatisticsScore.text = string.Format (pattern, Data.SadyGottenScore, Data.TimeUsedScore, Data.FuelRemainScore, Data.TotalScore);
+		if (Data.Mode == StatisticsInfo.StatisticsInfoMode.lose) {
+			string pattern = "{0}\n{1}\n+{2}\n{3}";
+			StatisticsScore.text = string.Format (pattern, Data.SadyGottenScore, Data.TimeUsedScore, Data.FuelRemainScore, "0(Fail)");
+		} else if (Data.Mode == StatisticsInfo.StatisticsInfoMode.win) {
+
+			GDEStageData stageData = DataController.GetInstance ().GetStageData (Data.StageId);
+
+			string pattern;
+			if (Data.TotalScore > stageData.high_score) {
+				pattern = "{0}\n{1}\n+{2}\nnew record {3}";
+			} else {
+				pattern = "{0}\n{1}\n+{2}\n{3}";
+			}
+			StatisticsScore.text = string.Format (pattern, Data.SadyGottenScore, Data.TimeUsedScore, Data.FuelRemainScore, Data.TotalScore);
+		} else {	
+			string pattern = "{0}\n{1}\n+{2}\n{3}";
+			StatisticsScore.text = string.Format (pattern, Data.SadyGottenScore, Data.TimeUsedScore, Data.FuelRemainScore, Data.TotalScore);
+		}
 	}
 }
