@@ -1,4 +1,7 @@
 ﻿// MyEditorTool.cs
+
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor;
 using System;
@@ -75,3 +78,5 @@ public class MyEditorTool : ScriptableObject
 		return Selection.gameObjects;
 	}
 }
+
+#endif

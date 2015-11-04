@@ -33,7 +33,7 @@ public class DataController : MonoBehaviour
 
 		GDEDataManager.DataDictionary.TryGetCustom (GDEItemKeys.Common_common, out Common);
 
-		Debug.Log (Common.version);
+		Debug.Log (string.Format("Version @GDECommon: " + Common.version));
 
 		StageDic = new Dictionary<string, GDEStageData> ();
 		WorldStageCount = new Dictionary<int, int> ();
