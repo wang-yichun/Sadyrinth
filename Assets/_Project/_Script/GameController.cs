@@ -186,6 +186,8 @@ public class GameController : MonoBehaviour
 
 	#endregion
 
+	#region 加载/卸载 关卡
+
 	void UnloadStage ()
 	{
 		if (StageRoot != null) {
@@ -219,6 +221,8 @@ public class GameController : MonoBehaviour
 //		public PlayerController Player;
 //		public Transform CollectableContainerTransform;
 	}
+
+	#endregion
 
 	#region 降落区检测
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GameDataEditor;
 
 public class StatisticsInfo
 {
@@ -38,18 +39,16 @@ public class StatisticsInfo
 
 	public void CalcScore ()
 	{
-//		MechanismController mechanism;
-//		if (GameController.GetInstance ().StageRoot.name == StageId) {
-//			mechanism = GameController.GetInstance ().StageRoot.GetComponentInChildren<MechanismController> ();
-//
-//		} else {
-//			Transform stagePrefab = Resources.Load<Transform> (string.Format ("stage/{0}", StageId));
-//			mechanism = stagePrefab.GetComponentInChildren<MechanismController> ();
-//		}
+		#region 无用的部分
+		/*
+		 *  没有使用基础分数去计算成绩
+		 */
 
+		var dc = DataController.GetInstance ();
 
-
-		StageIdScore = mechanism.BaseScore;
+		GDEStageData stageData = DataController.GetInstance ().GetStageData (StageId);
+		StageIdScore = stageData.base_score;
+		#endregion
 
 		SadyGottenScore = CalcSadyGottenScore (SadyGotten);
 
