@@ -48,8 +48,10 @@ public class GameController : MonoBehaviour
 
 	void EasyTouch_On_TouchStart (Gesture gesture)
 	{
-		Pad.Open ();
-		Pad.SetPadPosition (gesture.GetTouchToWorldPoint (0f));
+		if (IsPause == false) {
+			Pad.Open ();
+			Pad.SetPadPosition (gesture.GetTouchToWorldPoint (0f));
+		}
 	}
 
 	void EasyTouch_On_TouchUp (Gesture gesture)
@@ -175,8 +177,9 @@ public class GameController : MonoBehaviour
 
 	public void PauseGame ()
 	{
-		Time.timeScale = 0;
+		Time.timeScale = 0f;
 		IsPause = true;
+		Pad.Close ();
 	}
 
 	public void ResumeGame ()

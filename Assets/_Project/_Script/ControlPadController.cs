@@ -19,14 +19,14 @@ public class ControlPadController : MonoBehaviour
 
 	public void Open ()
 	{
-		Pointer.GetComponent<SpriteRenderer> ().material.DOFade (1f, .2f);
-		Pad.GetComponent<SpriteRenderer> ().material.DOFade (1f, .4f);
+		Pointer.GetComponent<SpriteRenderer> ().material.DOFade (1f, .2f).SetUpdate(true);
+		Pad.GetComponent<SpriteRenderer> ().material.DOFade (1f, .4f).SetUpdate(true);
 	}
 
 	public void Close ()
 	{
-		Pointer.GetComponent<SpriteRenderer> ().material.DOFade (0f, .2f);
-		Pad.GetComponent<SpriteRenderer> ().material.DOFade (0f, .4f);
+		Pointer.GetComponent<SpriteRenderer> ().material.DOFade (0f, .2f).SetUpdate(true);
+		Pad.GetComponent<SpriteRenderer> ().material.DOFade (0f, .4f).SetUpdate(true);
 	}
 
 	public void SetPadPosition (Vector3 position, bool isTween = false)
