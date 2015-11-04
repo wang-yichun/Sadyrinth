@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameHelper {
+/// <summary>
+/// 负责寻找下一关
+/// </summary>
+interface INextHelper
+{
+	string GetNextStageId (string cur_stage_id);
 
-	public static string GetNextStageId(string stage_id) {
-		return "01-02";
-	}
+	bool IsLastStageInTheWorld (string cur_stage_id);
+
+	bool IsLastWorldLastStage (string cur_stage_id);
 }

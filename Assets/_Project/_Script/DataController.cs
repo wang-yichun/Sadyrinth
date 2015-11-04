@@ -11,6 +11,7 @@ public class DataController : MonoBehaviour
 	public GDECommonData Common;
 	public Dictionary<string, GDEStageData> StageDic;
 	public Dictionary<int, int> WorldStageCount;
+	public int LastWorldIdx;
 
 	public static DataController MyDataController;
 
@@ -22,6 +23,7 @@ public class DataController : MonoBehaviour
 	void Awake ()
 	{
 		MyDataController = this;
+		DefaultNextHelper = new NextHelper (this);
 	}
 
 	// Use this for initialization
@@ -46,6 +48,10 @@ public class DataController : MonoBehaviour
 			} else {
 				WorldStageCount.Add (world_id, 1);
 			}
+
+			if (LastWorldIdx == null || LastWorldIdx < world_id) {
+				LastWorldIdx = world_id;
+			}
 		}
 	}
 
@@ -54,4 +60,56 @@ public class DataController : MonoBehaviour
 		var stage_gde_key = WorldStage.CreateWithStageId (stage_id).ToString (WorldStage.Type.gde_stage_key);
 		return StageDic [stage_gde_key];
 	}
+
+	#region NextHelper
+
+	public class NextHelper: INextHelper
+	{
+
+		private DataController OuterDataController;
+
+		public NextHelper (DataController dataController)
+		{
+			OuterDataController = dataController;
+		}
+
+		#region INextHelper implementation
+
+		public string GetNextStageId (string cur_stage_id)
+		{
+			WorldStage ws = WorldStage.CreateWithStageId (cur_stage_id);
+
+			string result_stage_id;
+			if (IsLastWorldLastStage (cur_stage_id)) {
+				result_stage_id = cur_stage_id;	
+			} else if (IsLastStageInTheWorld (cur_stage_id)) {
+				ws.World++;
+				ws.Stage = 0;
+				result_stage_id = ws.ToString ();
+			} else {
+				ws.Stage++;
+				result_stage_id = ws.ToString ();
+			}
+
+			return result_stage_id;
+		}
+
+		public bool IsLastStageInTheWorld (string cur_stage_id)
+		{
+			return WorldStage.CreateWithStageId (cur_stage_id).World == OuterDataController.LastWorldIdx;
+		}
+
+		public bool IsLastWorldLastStage (string cur_stage_id)
+		{
+			WorldStage ws = WorldStage.CreateWithStageId (cur_stage_id);
+			return ws.World == OuterDataController.LastWorldIdx && ws.Stage == OuterDataController.WorldStageCount [ws.World];
+		}
+
+		#endregion
+		
+	}
+
+	public NextHelper DefaultNextHelper;
+
+	#endregion
 }

@@ -168,7 +168,7 @@ public class UIController : MonoBehaviour
 		Win.Close ();
 
 		GameController game = GameController.GetInstance ();
-		string nextStageID = GameHelper.GetNextStageId (game.LastStartStageID);
+		string nextStageID = DataController.GetInstance ().DefaultNextHelper.GetNextStageId (game.LastStartStageID);
 		game.EndGame ();
 		game.ResetGame (nextStageID);
 		game.StartGame ();
