@@ -3,8 +3,8 @@ using System.Collections;
 
 public class WorldStage
 {
-	public int World;
-	public int Stage;
+	public int WorldId;
+	public int StageId;
 
 	private WorldStage ()
 	{
@@ -21,10 +21,10 @@ public class WorldStage
 		string result = null;
 		switch (type) {
 		case Type.stage_id:
-			result = string.Format ("{0:00}-{1:00}", World, Stage);
+			result = string.Format ("{0:00}-{1:00}", WorldId, StageId);
 			break;
 		case Type.gde_stage_key:
-			result = string.Format ("stage_{0:00}_{1:00}", World, Stage);
+			result = string.Format ("stage_{0:00}_{1:00}", WorldId, StageId);
 			break;
 		default:
 			break;
@@ -41,8 +41,8 @@ public class WorldStage
 	{
 		WorldStage ws = new WorldStage ();
 		string[] s = stage_id.Split ('-');
-		ws.World = int.Parse (s [0]);
-		ws.Stage = int.Parse (s [1]);
+		ws.WorldId = int.Parse (s [0]);
+		ws.StageId = int.Parse (s [1]);
 		return ws;
 	}
 
@@ -50,16 +50,16 @@ public class WorldStage
 	{
 		WorldStage ws = new WorldStage ();
 		string[] s = stage_key.Split ('_');
-		ws.World = int.Parse (s [1]);
-		ws.Stage = int.Parse (s [2]);
+		ws.WorldId = int.Parse (s [1]);
+		ws.StageId = int.Parse (s [2]);
 		return ws;
 	}
 
 	public static WorldStage CreateWithWorldIdxAndStageIdx (int world_idx, int stage_idx)
 	{
 		return new WorldStage () {
-			World = world_idx + 1,
-			Stage = stage_idx + 1
+			WorldId = world_idx + 1,
+			StageId = stage_idx + 1
 		};
 	}
 }

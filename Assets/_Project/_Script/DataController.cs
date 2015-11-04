@@ -41,7 +41,7 @@ public class DataController : MonoBehaviour
 		foreach (GDEStageData stage in Common.stage) {
 			StageDic.Add (stage.Key, stage);
 
-			int world = WorldStage.CreateWithGDEStageKey (stage.Key).World;
+			int world = WorldStage.CreateWithGDEStageKey (stage.Key).WorldId;
 			int world_id = world - 1;
 			if (WorldStageCount.ContainsKey (world_id)) {
 				WorldStageCount [world_id]++;
@@ -83,11 +83,11 @@ public class DataController : MonoBehaviour
 			if (IsLastWorldLastStage (cur_stage_id)) {
 				result_stage_id = cur_stage_id;	
 			} else if (IsLastStageInTheWorld (cur_stage_id)) {
-				ws.World++;
-				ws.Stage = 0;
+				ws.WorldId++;
+				ws.StageId = 0;
 				result_stage_id = ws.ToString ();
 			} else {
-				ws.Stage++;
+				ws.StageId++;
 				result_stage_id = ws.ToString ();
 			}
 
@@ -96,13 +96,13 @@ public class DataController : MonoBehaviour
 
 		public bool IsLastStageInTheWorld (string cur_stage_id)
 		{
-			return WorldStage.CreateWithStageId (cur_stage_id).World == OuterDataController.LastWorldIdx;
+			return WorldStage.CreateWithStageId (cur_stage_id).WorldId == OuterDataController.LastWorldIdx;
 		}
 
 		public bool IsLastWorldLastStage (string cur_stage_id)
 		{
 			WorldStage ws = WorldStage.CreateWithStageId (cur_stage_id);
-			return ws.World == OuterDataController.LastWorldIdx && ws.Stage == OuterDataController.WorldStageCount [ws.World];
+			return ws.WorldId == OuterDataController.LastWorldIdx && ws.StageId == OuterDataController.WorldStageCount [ws.WorldId];
 		}
 
 		#endregion
