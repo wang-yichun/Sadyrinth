@@ -43,6 +43,20 @@ namespace GameDataEditor
             }
         }
 
+        private static string auto_selected_stage_idKey = "auto_selected_stage_id";
+		private string _auto_selected_stage_id;
+        public string auto_selected_stage_id
+        {
+            get { return _auto_selected_stage_id; }
+            set {
+                if (_auto_selected_stage_id != value)
+                {
+                    _auto_selected_stage_id = value;
+                    GDEDataManager.SetString(_key+"_"+auto_selected_stage_idKey, _auto_selected_stage_id);
+                }
+            }
+        }
+
         private static string stageKey = "stage";
 		public List<GDEStageData>      stage;
 		public void Set_stage()
@@ -71,6 +85,7 @@ namespace GameDataEditor
 			{
                 dict.TryGetInt(world_countKey, out _world_count);
                 dict.TryGetString(versionKey, out _version);
+                dict.TryGetString(auto_selected_stage_idKey, out _auto_selected_stage_id);
 
                 dict.TryGetCustomList(stageKey, out stage);
                 LoadFromSavedData(dataKey);
@@ -83,6 +98,7 @@ namespace GameDataEditor
 			
             _world_count = GDEDataManager.GetInt(_key+"_"+world_countKey, _world_count);
             _version = GDEDataManager.GetString(_key+"_"+versionKey, _version);
+            _auto_selected_stage_id = GDEDataManager.GetString(_key+"_"+auto_selected_stage_idKey, _auto_selected_stage_id);
 
             stage = GDEDataManager.GetCustomList(_key+"_"+stageKey, stage);
          }
@@ -105,6 +121,15 @@ namespace GameDataEditor
             dict.TryGetString(versionKey, out _version);
         }
 
+        public void Reset_auto_selected_stage_id()
+        {
+            GDEDataManager.ResetToDefault(_key, auto_selected_stage_idKey);
+
+            Dictionary<string, object> dict;
+            GDEDataManager.Get(_key, out dict);
+            dict.TryGetString(auto_selected_stage_idKey, out _auto_selected_stage_id);
+        }
+
         public void Reset_stage()
 		{
 			GDEDataManager.ResetToDefault(_key, stageKey);
@@ -123,6 +148,7 @@ namespace GameDataEditor
             GDEDataManager.ResetToDefault(_key, versionKey);
             GDEDataManager.ResetToDefault(_key, world_countKey);
             GDEDataManager.ResetToDefault(_key, stageKey);
+            GDEDataManager.ResetToDefault(_key, auto_selected_stage_idKey);
 
             Reset_stage();
 

@@ -22,7 +22,7 @@ public class PauseStatisticsLike
 	public void RefreshStatistics ()
 	{
 		RefreshStatistics_Value ();
-		RefreshStatistics_Score ();	
+		RefreshStatistics_Score ();
 	}
 
 	public void RefreshStatistics_Value ()

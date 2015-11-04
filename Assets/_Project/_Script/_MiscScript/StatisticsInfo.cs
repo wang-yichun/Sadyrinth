@@ -16,14 +16,14 @@ public class StatisticsInfo
 		FuelRemain = fuel_remain;
 	}
 
-	//	public enum StatisticsInfoMode
-	//	{
-	//		pause,
-	//		win,
-	//		lose
-	//	}
-
-	//	public StatisticsInfoMode mode;
+//	public enum StatisticsInfoMode
+//	{
+//		pause,
+//		win,
+//		lose
+//	}
+//
+//	public StatisticsInfoMode mode;
 
 	public string StageId;
 	public int SadyGotten;

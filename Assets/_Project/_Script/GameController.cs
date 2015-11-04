@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GameDataEditor;
 
 public class GameController : MonoBehaviour
 {
@@ -253,6 +254,13 @@ public class GameController : MonoBehaviour
 					time_used: this.TimePassed,
 					fuel_remain: this.Player.CurFuelValue
 				));
+
+				int current_score = winController.StatisticsLike.Data.TotalScore;
+
+				GDEStageData stageData = DataController.GetInstance ().GetStageData (this.LastStartStageID);
+				if (current_score > stageData.high_score) {
+					stageData.high_score = current_score;
+				}
 			}
 		}
 	}

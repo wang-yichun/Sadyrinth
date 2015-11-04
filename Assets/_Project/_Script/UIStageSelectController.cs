@@ -19,7 +19,8 @@ public class UIStageSelectController : RootCanvasBase
 		PrepareStageInfoListByWorldID (0); // 暂时只有一个世界的
 
 		RefreshStageInfo ();
-		StageIDSelected = DataHandler.LoadAutoSelectStageID ();
+//		StageIDSelected = DataHandler.LoadAutoSelectStageID ();
+		StageIDSelected = DataController.GetInstance ().Common.auto_selected_stage_id;
 		SelectStage (StageIDSelected);
 
 		NotificationCenter.DefaultCenter.AddObserver (this, "stage_button_click");
@@ -88,7 +89,9 @@ public class UIStageSelectController : RootCanvasBase
 			StartButton.GetComponentInChildren<tk2dTextMesh> ().text = string.Format ("Start: {0}", stage_id);
 		}
 
-		DataHandler.SaveAutoSelectStageID (stage_id);
+//		DataHandler.SaveAutoSelectStageID (stage_id);
+
+		DataController.GetInstance ().Common.auto_selected_stage_id = stage_id;
 	}
 }
 
