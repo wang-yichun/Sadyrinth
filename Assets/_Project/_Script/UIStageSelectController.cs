@@ -52,13 +52,11 @@ public class UIStageSelectController : RootCanvasBase
 
 
 		for (int i = 0; i < DataController.GetInstance ().WorldStageCount [world_id]; i++) {
-
-//			string stage_id = string.Format ("{0:00}-{1:00}", world_id + 1, i + 1);
+			
 			string stage_id = WorldStage.CreateWithWorldIdxAndStageIdx (world_id, i).ToString ();
 
 			StageSelectItemList.Add (new StageSelectItem () {
 				stage_id = stage_id,
-//				score = DataHandler.LoadScoreByStageID (stage_id)
 				score = DataController.GetInstance ().GetStageData (stage_id).high_score
 			});
 		}
@@ -86,6 +84,18 @@ public class UIStageSelectController : RootCanvasBase
 
 			StageSelectItemDic.Add (item.stage_id, stageSelectItemController);
 		}
+
+		RectTransform rt = ContentTransform.GetComponent<RectTransform> ();
+		rt.sizeDelta = new Vector2 (rt.sizeDelta.x, GetContentHeightByStageCount (StageSelectItemList.Count));
+	}
+
+	float GetContentHeightByStageCount (int count)
+	{
+		GridLayoutGroup glg = ContentTransform.GetComponent<GridLayoutGroup> ();
+
+		int col_count = glg.constraintCount;
+		int row_count = Mathf.CeilToInt (count / col_count);
+		return row_count * glg.cellSize.y;
 	}
 
 	void SelectStage (string stage_id)
@@ -99,8 +109,6 @@ public class UIStageSelectController : RootCanvasBase
 			StartButton.interactable = true;
 			StartButton.GetComponentInChildren<tk2dTextMesh> ().text = string.Format ("Start: {0}", stage_id);
 		}
-
-//		DataHandler.SaveAutoSelectStageID (stage_id);
 
 		DataController.GetInstance ().Common.auto_selected_stage_id = stage_id;
 	}
