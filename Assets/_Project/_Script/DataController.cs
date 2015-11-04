@@ -49,7 +49,7 @@ public class DataController : MonoBehaviour
 				WorldStageCount.Add (world_id, 1);
 			}
 
-			if (LastWorldIdx == null || LastWorldIdx < world_id) {
+			if (LastWorldIdx < world_id) {
 				LastWorldIdx = world_id;
 			}
 		}
@@ -102,7 +102,7 @@ public class DataController : MonoBehaviour
 		public bool IsLastWorldLastStage (string cur_stage_id)
 		{
 			WorldStage ws = WorldStage.CreateWithStageId (cur_stage_id);
-			return ws.WorldId == OuterDataController.LastWorldIdx && ws.StageId == OuterDataController.WorldStageCount [ws.WorldId];
+			return ws.WorldId == OuterDataController.LastWorldIdx + 1 && ws.StageId == OuterDataController.WorldStageCount [ws.WorldId - 1];
 		}
 
 		#endregion

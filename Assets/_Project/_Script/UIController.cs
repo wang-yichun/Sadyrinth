@@ -169,9 +169,18 @@ public class UIController : MonoBehaviour
 
 		GameController game = GameController.GetInstance ();
 		string nextStageID = DataController.GetInstance ().DefaultNextHelper.GetNextStageId (game.LastStartStageID);
-		game.EndGame ();
-		game.ResetGame (nextStageID);
-		game.StartGame ();
+
+		if (nextStageID == game.LastStartStageID) {
+			game.EndGame ();
+
+			InGame.Close ();
+			StageSelect.Open ();
+		} else {
+
+			game.EndGame ();
+			game.ResetGame (nextStageID);
+			game.StartGame ();
+		}
 	}
 
 	#endregion
