@@ -46,6 +46,7 @@ public class StageSelectItemController : MonoBehaviour
 	public void ETT_OpenStageButtonDetailMenu ()
 	{
 		OpenDetailMenu ();
+		(GameController.GetInstance ().UIController.StageSelect as UIStageSelectController).IgnoreCloseMenu++;
 	}
 
 	public void ClearButton_OnClicked ()
@@ -61,7 +62,8 @@ public class StageSelectItemController : MonoBehaviour
 [System.Serializable]
 public class StageSelectItem
 {
-	public StageSelectItem() {
+	public StageSelectItem ()
+	{
 		detail_opened = false;
 	}
 
