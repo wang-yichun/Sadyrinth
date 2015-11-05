@@ -32,7 +32,7 @@ public class SadyController : MonoBehaviour
 
 		NotificationCenter.DefaultCenter.PostNotification (this, "set_sady_to",
 			new Hashtable () { 
-				{ "value", GameController.GetInstance ().RemainSadyCount },
+				{ "value", GameController.GetInstance ().MaxSadyCount - GameController.GetInstance ().RemainSadyCount },
 				{ "total_value", GameController.GetInstance ().MaxSadyCount }
 			}
 		);
