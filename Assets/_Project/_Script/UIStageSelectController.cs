@@ -21,6 +21,8 @@ public class UIStageSelectController : RootCanvasBase
 	{
 		base.CanvasInEnd ();
 
+		GameController.GetInstance ().PlayMusic (GameController.GetInstance ().MainThemeMusic);
+
 		PrepareStageInfoListByWorldID (0); // 暂时只有一个世界的
 
 		RefreshStageInfo ();

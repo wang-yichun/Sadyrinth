@@ -156,6 +156,10 @@ public class GameController : MonoBehaviour
 
 		TimePassed = 0f;
 		PauseGame ();
+
+
+
+		GameController.GetInstance ().PlayMusic (null);
 	}
 
 	public void StartGame ()
@@ -167,6 +171,9 @@ public class GameController : MonoBehaviour
 		NotificationCenter.DefaultCenter.PostNotification (this, "start_game_reset");
 
 		UIController.InGame.SetAllButtonInteractable (true);
+
+
+		GameController.GetInstance ().PlayMusic (GameController.GetInstance ().InGameMusic);
 	}
 
 	public void EndGame ()
@@ -251,6 +258,8 @@ public class GameController : MonoBehaviour
 				PauseGame ();
 				UIController.Win.Open ();
 
+				GameController.GetInstance ().PlayMusic (null);
+
 				UIController.InGame.SetAllButtonInteractable (false);
 
 				UIWinController winController = UIController.Win as UIWinController;
@@ -309,6 +318,32 @@ public class GameController : MonoBehaviour
 
 	public AudioSource TapAudio;
 	public AudioSource Tap2Audio;
+
+	public AudioSource MainThemeMusic;
+	public AudioSource InGameMusic;
+
+	public AudioSource CurrentlyMusic;
+
+	public void PlayMusic (AudioSource audioSource)
+	{
+		if (CurrentlyMusic != null) {
+			if (audioSource == null) {
+				CurrentlyMusic.Stop ();
+				CurrentlyMusic = null;
+			} else {
+				if (CurrentlyMusic != audioSource) {
+					CurrentlyMusic.Stop ();
+					CurrentlyMusic = audioSource;
+					CurrentlyMusic.Play ();
+				}
+			}
+		} else {
+			CurrentlyMusic = audioSource;
+			if (CurrentlyMusic != null) {
+				CurrentlyMusic.Play ();
+			}
+		}
+	}
 
 	#endregion
 }
