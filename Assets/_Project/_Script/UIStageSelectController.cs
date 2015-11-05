@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 
 public class UIStageSelectController : RootCanvasBase
 {
@@ -110,6 +111,13 @@ public class UIStageSelectController : RootCanvasBase
 			StartButton.interactable = true;
 			StartButton.GetComponentInChildren<tk2dTextMesh> ().text = string.Format ("Start: {0}", stage_id);
 		}
+
+		Transform startButtonLabelTransform = StartButton.GetComponentInChildren<tk2dTextMesh> ().transform;
+
+		startButtonLabelTransform.DOKill ();
+		Sequence sequence = DOTween.Sequence ();
+		sequence.Append (startButtonLabelTransform.DOScale (1.2f, .1f).SetEase (Ease.OutSine));
+		sequence.Append (startButtonLabelTransform.DOScale (1f, .1f).SetEase (Ease.InSine));
 
 		DataController.GetInstance ().Common.auto_selected_stage_id = stage_id;
 	}
