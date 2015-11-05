@@ -304,4 +304,11 @@ public class GameController : MonoBehaviour
 	}
 
 	#endregion
+
+	#region Audio
+
+	public AudioSource TapAudio;
+	public AudioSource Tap2Audio;
+
+	#endregion
 }

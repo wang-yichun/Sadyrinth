@@ -64,12 +64,16 @@ public class UIController : MonoBehaviour
 
 	public void MainMenu_SettingButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		MainMenu.Close ();
 		Setting.Open ();
 	}
 
 	public void MainMenu_PlayButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		MainMenu.Close ();
 		StageSelect.Open ();
 	}
@@ -80,12 +84,16 @@ public class UIController : MonoBehaviour
 
 	public void StageSelect_BackButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		StageSelect.Close ();
 		MainMenu.Open ();
 	}
 
 	public void StageSelect_StartButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		string StageIDSelected = GetComponentInChildren<UIStageSelectController> ().StageIDSelected;
 
 		StageSelect.Close ();
@@ -101,6 +109,8 @@ public class UIController : MonoBehaviour
 
 	public void InGame_PauseButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		GameController game = GameController.GetInstance ();
 
 		if (game.IsPause) {
@@ -127,6 +137,8 @@ public class UIController : MonoBehaviour
 
 	public void PauseMenu_ResumeButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		PauseMenu.Close ();
 
 		GameController game = GameController.GetInstance ();
@@ -135,6 +147,8 @@ public class UIController : MonoBehaviour
 
 	public void PauseMenu_MainMenuButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		PauseMenu.Close ();
 
 		GameController game = GameController.GetInstance ();
@@ -145,6 +159,8 @@ public class UIController : MonoBehaviour
 
 	public void PauseMenu_ResetButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		PauseMenu.Close ();
 
 		GameController game = GameController.GetInstance ();
@@ -159,6 +175,8 @@ public class UIController : MonoBehaviour
 
 	public void Win_MainMenuButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		GameController game = GameController.GetInstance ();
 		game.EndGame ();
 
@@ -169,6 +187,8 @@ public class UIController : MonoBehaviour
 
 	public void Win_ReplayButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		Win.Close ();
 
 		GameController game = GameController.GetInstance ();
@@ -179,6 +199,8 @@ public class UIController : MonoBehaviour
 
 	public void Win_NextStageButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		Win.Close ();
 
 		GameController game = GameController.GetInstance ();
@@ -203,6 +225,8 @@ public class UIController : MonoBehaviour
 
 	public void Lose_MainMenuButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		GameController game = GameController.GetInstance ();
 		game.EndGame ();
 
@@ -213,6 +237,8 @@ public class UIController : MonoBehaviour
 
 	public void Lose_TryAgainButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		Lose.Close ();
 
 		GameController game = GameController.GetInstance ();
@@ -227,6 +253,8 @@ public class UIController : MonoBehaviour
 
 	public void Setting_ClearButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		SecretInput.Open (new CanvasOKCancelInfo () {
 			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
 			CorrectSecretString = "ethan",
@@ -264,6 +292,8 @@ public class UIController : MonoBehaviour
 
 	public void Setting_UnlockButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		SecretInput.Open (new CanvasOKCancelInfo () {
 			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
 			CorrectSecretString = "ethan",
@@ -295,12 +325,16 @@ public class UIController : MonoBehaviour
 
 	public void Setting_MainMenuButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		Setting.Close ();
 		MainMenu.Open ();
 	}
 
 	public void Setting_EnterCodeButton_OnClick ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		SecretInput.Open (new CanvasOKCancelInfo () {
 			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
 			CorrectSecretString = null,

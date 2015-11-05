@@ -9,6 +9,8 @@ public class UILoseController : RootCanvasBase
 	public override void CanvasInEnd ()
 	{
 		base.CanvasInEnd ();
+
+		GetComponent<AudioSource> ().Play ();
 	}
 
 	public override void CanvasOutStart ()

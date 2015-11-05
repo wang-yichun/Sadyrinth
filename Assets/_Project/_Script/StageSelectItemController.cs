@@ -64,6 +64,8 @@ public class StageSelectItemController : MonoBehaviour
 
 	public void SelfButton_OnClicked ()
 	{
+		GameController.GetInstance ().Tap2Audio.Play ();
+
 		NotificationCenter.DefaultCenter.PostNotification (this, "stage_button_click", new Hashtable () {
 			{ "stage_id", Data.stage_id }
 		});
@@ -71,6 +73,8 @@ public class StageSelectItemController : MonoBehaviour
 
 	public void ETT_OpenStageButtonDetailMenu ()
 	{
+		GameController.GetInstance ().TapAudio.Play ();
+
 		OpenDetailMenu ();
 		(GameController.GetInstance ().UIController.StageSelect as UIStageSelectController).IgnoreCloseMenu++;
 	}
