@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
 		GDEStageData stageData = DataController.GetInstance ().GetStageData (stage_id);
 
 		CurFuelValue = ExtraFuelValue + stageData.base_fuel;
+
+		GetComponent<AudioSource> ().Play ();
 	}
 
 	public void InputVector (Vector2 vec)
@@ -121,8 +123,9 @@ public class PlayerController : MonoBehaviour
 			}
 
 			CurFuelValue -= force.magnitude * EngineFuelPowerRate;
-		}
 
+			SetThrusterAudioByForce (force);
+		}
 	}
 
 	void Start ()
@@ -225,4 +228,22 @@ public class PlayerController : MonoBehaviour
 		collisionFX.maxParticles = (int)Mathf.Lerp (1f, 30f, value);
 		collisionFX.transform.forward = upVec;
 	}
+
+	#region Audio
+
+	public AudioSource ThrusterAudio;
+
+	public void AudioOff ()
+	{
+		ThrusterAudio.Stop ();
+	}
+
+	public void SetThrusterAudioByForce (Vector3 force)
+	{
+		float volume = force.magnitude / 10f;
+
+		ThrusterAudio.volume = Mathf.Lerp (ThrusterAudio.volume, volume, .1f);
+	}
+
+	#endregion
 }
