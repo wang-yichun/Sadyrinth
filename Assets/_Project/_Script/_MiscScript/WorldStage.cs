@@ -55,6 +55,14 @@ public class WorldStage
 		return ws;
 	}
 
+	public static WorldStage CreateWithWorldIdAndStageId (int world_id, int stage_id)
+	{
+		return new WorldStage () {
+			WorldId = world_id,
+			StageId = stage_id
+		};
+	}
+
 	public static WorldStage CreateWithWorldIdxAndStageIdx (int world_idx, int stage_idx)
 	{
 		return new WorldStage () {

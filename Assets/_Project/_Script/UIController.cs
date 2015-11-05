@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GameDataEditor;
 
 public class UIController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UIController : MonoBehaviour
 	public RootCanvasBase PauseMenu;
 	public RootCanvasBase Win;
 	public RootCanvasBase Lose;
+	public RootCanvasBase Setting;
 
 
 	public bool IsStageDebug;
@@ -48,6 +50,7 @@ public class UIController : MonoBehaviour
 		PauseMenu.gameObject.SetActive (false);
 		Win.gameObject.SetActive (false);
 		Lose.gameObject.SetActive (false);
+		Setting.gameObject.SetActive (false);
 	}
 
 	#region MainMenu
@@ -55,6 +58,12 @@ public class UIController : MonoBehaviour
 	public void MainMenu_ExitButton_OnClick ()
 	{
 		Application.Quit ();
+	}
+
+	public void MainMenu_SettingButton_OnClick ()
+	{
+		MainMenu.Close ();
+		Setting.Open ();
 	}
 
 	public void MainMenu_PlayButton_OnClick ()
@@ -208,6 +217,37 @@ public class UIController : MonoBehaviour
 		game.EndGame ();
 		game.ResetGame (null);
 		game.StartGame ();
+	}
+
+	#endregion
+
+	#region setting
+
+	public void Setting_ClearButton_OnClick ()
+	{
+		GDECommonData commonData = DataController.GetInstance ().Common;
+
+		for (int world_id = 1; world_id <= commonData.world_count; world_id++) {
+			int worldStageCount = DataController.GetInstance ().WorldStageCount [world_id - 1];
+			for (int stage_id = 1; stage_id <= worldStageCount; stage_id++) {
+				WorldStage sw = WorldStage.CreateWithWorldIdAndStageId (world_id, stage_id);
+
+				GameDataEditor.GDEStageData stageData = DataController.GetInstance ().GetStageData (sw.ToString ());
+				stageData.high_score = 0;
+				stageData.remain_fuel = 0;
+			}
+		}
+	}
+
+	public void Setting_UnlockButton_OnClick ()
+	{
+		Debug.Log ("Setting_UnlockButton_OnClick");
+	}
+
+	public void Setting_MainMenuButton_OnClick ()
+	{
+		Setting.Close ();
+		MainMenu.Open ();
 	}
 
 	#endregion

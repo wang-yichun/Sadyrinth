@@ -5,6 +5,8 @@ using System.Collections;
 public class RootCanvasBase : MonoBehaviour
 {
 
+	public bool DebugLogOn;
+
 	public void Close ()
 	{
 		CanvasOutStart ();
@@ -19,12 +21,16 @@ public class RootCanvasBase : MonoBehaviour
 
 	public virtual void CanvasInEnd ()
 	{
-		Debug.Log ("CanvasInEnd: " + name);
+		if (DebugLogOn) {
+			Debug.Log ("CanvasInEnd: " + name);
+		}
 	}
 
 	public virtual void CanvasOutStart ()
 	{
-		Debug.Log ("CanvasOutStart: " + name);
+		if (DebugLogOn) {
+			Debug.Log ("CanvasOutStart: " + name);
+		}
 	}
 
 	public Button[] Buttons;
