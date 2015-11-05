@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 		string stage_id = GameController.GetInstance ().LastStartStageID;
 		GDEStageData stageData = DataController.GetInstance ().GetStageData (stage_id);
 
-//		CurFuelValue = ExtraFuelValue + stageData.b;
+		CurFuelValue = ExtraFuelValue + stageData.base_fuel;
 	}
 
 	public void InputVector (Vector2 vec)

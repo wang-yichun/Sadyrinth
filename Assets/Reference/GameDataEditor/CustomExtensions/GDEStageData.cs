@@ -57,6 +57,20 @@ namespace GameDataEditor
             }
         }
 
+        private static string base_fuelKey = "base_fuel";
+		private float _base_fuel;
+        public float base_fuel
+        {
+            get { return _base_fuel; }
+            set {
+                if (_base_fuel != value)
+                {
+                    _base_fuel = value;
+                    GDEDataManager.SetFloat(_key+"_"+base_fuelKey, _base_fuel);
+                }
+            }
+        }
+
         private static string game_objectKey = "game_object";
 		private GameObject _game_object;
         public GameObject game_object
@@ -92,6 +106,7 @@ namespace GameDataEditor
                 dict.TryGetInt(base_scoreKey, out _base_score);
                 dict.TryGetInt(high_scoreKey, out _high_score);
                 dict.TryGetFloat(remain_fuelKey, out _remain_fuel);
+                dict.TryGetFloat(base_fuelKey, out _base_fuel);
                 dict.TryGetGameObject(game_objectKey, out _game_object);
                 LoadFromSavedData(dataKey);
 			}
@@ -104,6 +119,7 @@ namespace GameDataEditor
             _base_score = GDEDataManager.GetInt(_key+"_"+base_scoreKey, _base_score);
             _high_score = GDEDataManager.GetInt(_key+"_"+high_scoreKey, _high_score);
             _remain_fuel = GDEDataManager.GetFloat(_key+"_"+remain_fuelKey, _remain_fuel);
+            _base_fuel = GDEDataManager.GetFloat(_key+"_"+base_fuelKey, _base_fuel);
             _game_object = GDEDataManager.GetGameObject(_key+"_"+game_objectKey, _game_object);
          }
 
@@ -134,6 +150,15 @@ namespace GameDataEditor
             dict.TryGetFloat(remain_fuelKey, out _remain_fuel);
         }
 
+        public void Reset_base_fuel()
+        {
+            GDEDataManager.ResetToDefault(_key, base_fuelKey);
+
+            Dictionary<string, object> dict;
+            GDEDataManager.Get(_key, out dict);
+            dict.TryGetFloat(base_fuelKey, out _base_fuel);
+        }
+
         public void Reset_game_object()
         {
             GDEDataManager.ResetToDefault(_key, game_objectKey);
@@ -149,6 +174,7 @@ namespace GameDataEditor
             GDEDataManager.ResetToDefault(_key, base_scoreKey);
             GDEDataManager.ResetToDefault(_key, high_scoreKey);
             GDEDataManager.ResetToDefault(_key, remain_fuelKey);
+            GDEDataManager.ResetToDefault(_key, base_fuelKey);
 
 
             Dictionary<string, object> dict;
