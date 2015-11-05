@@ -10,6 +10,7 @@ public class StageSelectItemController : MonoBehaviour
 
 	public tk2dTextMesh StageID;
 	public tk2dTextMesh ScoreValue;
+	public Text RemainFuel;
 
 	public Button ClearButton;
 
