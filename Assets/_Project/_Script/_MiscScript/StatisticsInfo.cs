@@ -44,9 +44,6 @@ public class StatisticsInfo
 		/*
 		 *  没有使用基础分数去计算成绩
 		 */
-
-		var dc = DataController.GetInstance ();
-
 		GDEStageData stageData = DataController.GetInstance ().GetStageData (StageId);
 		StageIdScore = stageData.base_score;
 		#endregion

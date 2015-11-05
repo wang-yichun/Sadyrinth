@@ -17,5 +17,9 @@ namespace GameDataEditor
         public static string Stage_stage_01_02 = "stage_01_02";
         public static string Stage_stage_01_03 = "stage_01_03";
         public static string Stage_stage_01_04 = "stage_01_04";
+        public static string Stage_stage_01_05 = "stage_01_05";
+        public static string Stage_stage_01_06 = "stage_01_06";
+        public static string Stage_stage_01_07 = "stage_01_07";
+        public static string Stage_stage_01_08 = "stage_01_08";
     }
 }

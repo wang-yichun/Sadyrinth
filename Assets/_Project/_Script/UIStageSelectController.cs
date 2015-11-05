@@ -59,7 +59,8 @@ public class UIStageSelectController : RootCanvasBase
 
 			StageSelectItemList.Add (new StageSelectItem () {
 				stage_id = stage_id,
-				score = DataController.GetInstance ().GetStageData (stage_id).high_score
+				score = DataController.GetInstance ().GetStageData (stage_id).high_score,
+				remain_fuel = DataController.GetInstance ().GetStageData (stage_id).remain_fuel
 			});
 		}
 	}

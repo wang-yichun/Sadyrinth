@@ -268,6 +268,7 @@ public class GameController : MonoBehaviour
 				GDEStageData stageData = DataController.GetInstance ().GetStageData (this.LastStartStageID);
 				if (current_score > stageData.high_score) {
 					stageData.high_score = current_score;
+					stageData.remain_fuel = winController.StatisticsLike.Data.FuelRemain;
 				}
 			}
 		}

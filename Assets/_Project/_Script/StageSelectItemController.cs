@@ -55,6 +55,7 @@ public class StageSelectItemController : MonoBehaviour
 		Data.score = 0;
 		GameDataEditor.GDEStageData stageData = DataController.GetInstance ().GetStageData (Data.stage_id);
 		stageData.high_score = 0;
+		stageData.remain_fuel = 0;
 		Refresh (Data);
 	}
 }
