@@ -9,17 +9,29 @@ public class StageSelectItemController : MonoBehaviour
 	public StageSelectItem Data;
 
 	public tk2dTextMesh StageID;
+	public tk2dTextMesh ScoreLabel;
 	public tk2dTextMesh ScoreValue;
 	public Text RemainFuel;
 
+	public Button SelfButton;
 	public Button ClearButton;
 
 	public void Refresh (StageSelectItem item)
 	{
 		this.Data = item;
-		StageID.text = Data.stage_id;
-		ScoreValue.text = string.Format ("{0}", Data.score);
-		RemainFuel.text = string.Format ("Remain Fuel:{0:F2}", Data.remain_fuel);
+
+		if (this.Data.stage_lock) {
+			ScoreLabel.text = "Locked";
+			ScoreValue.text = "--";
+			SelfButton.interactable = false;
+			RemainFuel.text = "";
+		} else {
+			ScoreLabel.text = "Score";
+			StageID.text = Data.stage_id;
+			ScoreValue.text = string.Format ("{0}", Data.score);
+			RemainFuel.text = string.Format ("Remain Fuel:{0:F2}", Data.remain_fuel);
+			SelfButton.interactable = true;
+		}
 
 		ClearButton.gameObject.SetActive (false);
 	}
@@ -69,6 +81,7 @@ public class StageSelectItem
 	}
 
 	public string stage_id;
+	public bool stage_lock;
 	public int score;
 	public float remain_fuel;
 

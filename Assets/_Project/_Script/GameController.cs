@@ -270,6 +270,14 @@ public class GameController : MonoBehaviour
 					stageData.high_score = current_score;
 					stageData.remain_fuel = winController.StatisticsLike.Data.FuelRemain;
 				}
+
+				string nextStageId = DataController.GetInstance ().DefaultNextHelper.GetNextStageId (this.LastStartStageID);
+				if (nextStageId != this.LastStartStageID) {
+					GDEStageData nextStageData = DataController.GetInstance ().GetStageData (nextStageId);
+					nextStageData.stage_lock = false;
+
+					DataController.GetInstance ().Common.auto_selected_stage_id = nextStageId;
+				}
 			}
 		}
 	}

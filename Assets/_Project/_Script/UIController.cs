@@ -235,13 +235,31 @@ public class UIController : MonoBehaviour
 				GameDataEditor.GDEStageData stageData = DataController.GetInstance ().GetStageData (sw.ToString ());
 				stageData.high_score = 0;
 				stageData.remain_fuel = 0;
+
+				if (world_id == 1 && stage_id == 1) {
+					stageData.stage_lock = false;
+				} else {
+					stageData.stage_lock = true;
+				}
 			}
 		}
 	}
 
 	public void Setting_UnlockButton_OnClick ()
 	{
-		Debug.Log ("Setting_UnlockButton_OnClick");
+		GDECommonData commonData = DataController.GetInstance ().Common;
+		
+		for (int world_id = 1; world_id <= commonData.world_count; world_id++) {
+			int worldStageCount = DataController.GetInstance ().WorldStageCount [world_id - 1];
+			for (int stage_id = 1; stage_id <= worldStageCount; stage_id++) {
+				WorldStage sw = WorldStage.CreateWithWorldIdAndStageId (world_id, stage_id);
+
+				GameDataEditor.GDEStageData stageData = DataController.GetInstance ().GetStageData (sw.ToString ());
+
+				stageData.stage_lock = false;
+
+			}
+		}
 	}
 
 	public void Setting_MainMenuButton_OnClick ()

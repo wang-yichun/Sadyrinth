@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using GameDataEditor;
 
 public class UIStageSelectController : RootCanvasBase
 {
@@ -57,10 +58,13 @@ public class UIStageSelectController : RootCanvasBase
 			
 			string stage_id = WorldStage.CreateWithWorldIdxAndStageIdx (world_id, i).ToString ();
 
+			GDEStageData stageData = DataController.GetInstance ().GetStageData (stage_id);
+
 			StageSelectItemList.Add (new StageSelectItem () {
 				stage_id = stage_id,
-				score = DataController.GetInstance ().GetStageData (stage_id).high_score,
-				remain_fuel = DataController.GetInstance ().GetStageData (stage_id).remain_fuel
+				stage_lock = stageData.stage_lock,
+				score = stageData.high_score,
+				remain_fuel = stageData.remain_fuel
 			});
 		}
 	}
