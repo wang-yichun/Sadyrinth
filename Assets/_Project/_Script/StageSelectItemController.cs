@@ -21,6 +21,7 @@ public class StageSelectItemController : MonoBehaviour
 		this.Data = item;
 
 		if (this.Data.stage_lock) {
+			StageID.text = Data.stage_id;
 			ScoreLabel.text = "Locked";
 			ScoreValue.text = "--";
 			SelfButton.interactable = false;
@@ -33,7 +34,19 @@ public class StageSelectItemController : MonoBehaviour
 			SelfButton.interactable = true;
 		}
 
+		if (DataController.GetInstance ().Common.show_remain_fuel) {
+			RemainFuel.enabled = true;
+		} else {
+			RemainFuel.enabled = false;
+		}
+
 		ClearButton.gameObject.SetActive (false);
+
+		if (DataController.GetInstance ().Common.long_tap_stage_record_clear) {
+			GetComponent<EasyTouchTrigger> ().enabled = true;
+		} else {
+			GetComponent<EasyTouchTrigger> ().enabled = false;
+		}
 	}
 
 	public void OpenDetailMenu ()

@@ -230,7 +230,7 @@ public class UIController : MonoBehaviour
 		SecretInput.Open (new CanvasOKCancelInfo () {
 			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
 			CorrectSecretString = "ethan",
-			On_OK = () => {
+			On_OK = result => {
 				ClearRecord ();
 			},
 			On_Cancel = () => {
@@ -267,7 +267,7 @@ public class UIController : MonoBehaviour
 		SecretInput.Open (new CanvasOKCancelInfo () {
 			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
 			CorrectSecretString = "ethan",
-			On_OK = () => {
+			On_OK = result => {
 				UnlockStage ();
 			},
 			On_Cancel = () => {
@@ -285,7 +285,7 @@ public class UIController : MonoBehaviour
 			for (int stage_id = 1; stage_id <= worldStageCount; stage_id++) {
 				WorldStage sw = WorldStage.CreateWithWorldIdAndStageId (world_id, stage_id);
 
-				GameDataEditor.GDEStageData stageData = DataController.GetInstance ().GetStageData (sw.ToString ());
+				GDEStageData stageData = DataController.GetInstance ().GetStageData (sw.ToString ());
 
 				stageData.stage_lock = false;
 
@@ -297,6 +297,46 @@ public class UIController : MonoBehaviour
 	{
 		Setting.Close ();
 		MainMenu.Open ();
+	}
+
+	public void Setting_EnterCodeButton_OnClick ()
+	{
+		SecretInput.Open (new CanvasOKCancelInfo () {
+			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
+			CorrectSecretString = null,
+			On_OK = result => {
+				HandleSecretCode (result);
+			},
+			On_Cancel = () => {
+			},
+			parentCanvas = Setting	
+		});
+	}
+
+	public void HandleSecretCode (string secretCode)
+	{
+		switch (secretCode) {
+		case "clearrecord":
+			ClearRecord ();
+			break;
+		case "unlockstage":
+			UnlockStage ();
+			break;
+		case "showremainfuel=true":
+			DataController.GetInstance ().Common.show_remain_fuel = true;
+			break;
+		case "showremainfuel=false":
+			DataController.GetInstance ().Common.show_remain_fuel = false;
+			break;
+		case "longtapstagerecordclear=true":
+			DataController.GetInstance ().Common.long_tap_stage_record_clear = true;
+			break;
+		case "longtapstagerecordclear=false":
+			DataController.GetInstance ().Common.long_tap_stage_record_clear = false;
+			break;
+		default:
+			break;
+		}
 	}
 
 	#endregion

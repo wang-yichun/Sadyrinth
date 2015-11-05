@@ -15,6 +15,34 @@ namespace GameDataEditor
 {
     public class GDECommonData : IGDEData
     {
+        private static string show_remain_fuelKey = "show_remain_fuel";
+		private bool _show_remain_fuel;
+        public bool show_remain_fuel
+        {
+            get { return _show_remain_fuel; }
+            set {
+                if (_show_remain_fuel != value)
+                {
+                    _show_remain_fuel = value;
+                    GDEDataManager.SetBool(_key+"_"+show_remain_fuelKey, _show_remain_fuel);
+                }
+            }
+        }
+
+        private static string long_tap_stage_record_clearKey = "long_tap_stage_record_clear";
+		private bool _long_tap_stage_record_clear;
+        public bool long_tap_stage_record_clear
+        {
+            get { return _long_tap_stage_record_clear; }
+            set {
+                if (_long_tap_stage_record_clear != value)
+                {
+                    _long_tap_stage_record_clear = value;
+                    GDEDataManager.SetBool(_key+"_"+long_tap_stage_record_clearKey, _long_tap_stage_record_clear);
+                }
+            }
+        }
+
         private static string world_countKey = "world_count";
 		private int _world_count;
         public int world_count
@@ -83,6 +111,8 @@ namespace GameDataEditor
 				LoadFromSavedData(dataKey);
 			else
 			{
+                dict.TryGetBool(show_remain_fuelKey, out _show_remain_fuel);
+                dict.TryGetBool(long_tap_stage_record_clearKey, out _long_tap_stage_record_clear);
                 dict.TryGetInt(world_countKey, out _world_count);
                 dict.TryGetString(versionKey, out _version);
                 dict.TryGetString(auto_selected_stage_idKey, out _auto_selected_stage_id);
@@ -96,12 +126,32 @@ namespace GameDataEditor
 		{
 			_key = dataKey;
 			
+            _show_remain_fuel = GDEDataManager.GetBool(_key+"_"+show_remain_fuelKey, _show_remain_fuel);
+            _long_tap_stage_record_clear = GDEDataManager.GetBool(_key+"_"+long_tap_stage_record_clearKey, _long_tap_stage_record_clear);
             _world_count = GDEDataManager.GetInt(_key+"_"+world_countKey, _world_count);
             _version = GDEDataManager.GetString(_key+"_"+versionKey, _version);
             _auto_selected_stage_id = GDEDataManager.GetString(_key+"_"+auto_selected_stage_idKey, _auto_selected_stage_id);
 
             stage = GDEDataManager.GetCustomList(_key+"_"+stageKey, stage);
          }
+
+        public void Reset_show_remain_fuel()
+        {
+            GDEDataManager.ResetToDefault(_key, show_remain_fuelKey);
+
+            Dictionary<string, object> dict;
+            GDEDataManager.Get(_key, out dict);
+            dict.TryGetBool(show_remain_fuelKey, out _show_remain_fuel);
+        }
+
+        public void Reset_long_tap_stage_record_clear()
+        {
+            GDEDataManager.ResetToDefault(_key, long_tap_stage_record_clearKey);
+
+            Dictionary<string, object> dict;
+            GDEDataManager.Get(_key, out dict);
+            dict.TryGetBool(long_tap_stage_record_clearKey, out _long_tap_stage_record_clear);
+        }
 
         public void Reset_world_count()
         {
@@ -149,6 +199,8 @@ namespace GameDataEditor
             GDEDataManager.ResetToDefault(_key, world_countKey);
             GDEDataManager.ResetToDefault(_key, stageKey);
             GDEDataManager.ResetToDefault(_key, auto_selected_stage_idKey);
+            GDEDataManager.ResetToDefault(_key, show_remain_fuelKey);
+            GDEDataManager.ResetToDefault(_key, long_tap_stage_record_clearKey);
 
             Reset_stage();
 

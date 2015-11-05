@@ -41,15 +41,15 @@ public class CanvasOKCancelBase : RootCanvasBase
 	public void AutoSetOKButtonInteractable ()
 	{
 		if (IsInputSecretCorrect ()) {
-			OKButton.interactable = false;
-		} else {
 			OKButton.interactable = true;
+		} else {
+			OKButton.interactable = false;
 		}
 	}
 
 	public bool IsInputSecretCorrect ()
 	{
-		return Info.CorrectSecretString == null || SecretCodeInputField.text != Info.CorrectSecretString;
+		return Info.CorrectSecretString == null || SecretCodeInputField.text == Info.CorrectSecretString;
 	}
 
 	public void OnValueChange (string value)
@@ -59,6 +59,9 @@ public class CanvasOKCancelBase : RootCanvasBase
 
 	public void EndEdit (string value)
 	{
+		if (Info.CorrectSecretString == null)
+			return;
+		
 		if (IsInputSecretCorrect ()) {
 			SummitResult ();
 		}
@@ -82,7 +85,7 @@ public class CanvasOKCancelBase : RootCanvasBase
 
 	public void SummitResult ()
 	{
-		Info.On_OK.Invoke ();
+		Info.On_OK.Invoke (SecretCodeInputField.text);
 		this.Close ();
 	}
 
@@ -109,7 +112,7 @@ public class CanvasOKCancelInfo
 
 	public string CorrectSecretString;
 
-	public Action On_OK;
+	public Action<string> On_OK;
 	public Action On_Cancel;
 
 	public RootCanvasBase parentCanvas;
