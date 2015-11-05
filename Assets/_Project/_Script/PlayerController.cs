@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
 		CurFuelValue = ExtraFuelValue + stageData.base_fuel;
 
-		GetComponent<AudioSource> ().Play ();
+		AudioOn ();
 	}
 
 	public void InputVector (Vector2 vec)
@@ -107,6 +107,8 @@ public class PlayerController : MonoBehaviour
 			EngineLeft.SetPower (rigidbody, 0);
 			EngineBottom.SetPower (rigidbody, 0);
 			EngineRight.SetPower (rigidbody, 0);
+
+			SetThrusterAudioByForce (Vector3.zero);
 		} else {
 			
 			EngineBottom.SetPower (rigidbody, force.y);
@@ -126,6 +128,7 @@ public class PlayerController : MonoBehaviour
 
 			SetThrusterAudioByForce (force);
 		}
+
 	}
 
 	void Start ()
@@ -214,11 +217,26 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	Vector3 LastDoUnSafeFrictionCollisionPosition = Vector3.zero;
+	float LastDoUnSafeFrictionCollisionTime = 0f;
+
 	void DoUnSafeFrictionCollision (Vector3 position, float value)
 	{
-		GameObject collisionFXObject = Instantiate (CollisionFXPrefab, position, Quaternion.identity) as GameObject;
-		ParticleSystem collisionFX = collisionFXObject.GetComponent<ParticleSystem> ();
-		collisionFX.maxParticles = (int)Mathf.Lerp (1f, 30f, value);
+		if (LastDoUnSafeFrictionCollisionPosition == Vector3.zero || Vector3.Distance (LastDoUnSafeFrictionCollisionPosition, position) > .1f &&
+		    (Time.time - LastDoUnSafeFrictionCollisionTime) > .1f) {
+
+			Debug.Log ("Distance: " + Vector3.Distance (LastDoUnSafeFrictionCollisionPosition, position));
+			Debug.Log ("TimeDiff: " + (Time.time - LastDoUnSafeFrictionCollisionTime));
+
+			GameObject collisionFXObject = Instantiate (CollisionFXPrefab, position, Quaternion.identity) as GameObject;
+			ParticleSystem collisionFX = collisionFXObject.GetComponent<ParticleSystem> ();
+			collisionFX.maxParticles = (int)Mathf.Lerp (1f, 30f, value);
+
+			LastDoUnSafeFrictionCollisionPosition = position;
+			LastDoUnSafeFrictionCollisionTime = Time.time;
+		} else {
+			Debug.Log ("ignore similar sound");
+		}
 	}
 
 	void DoUnSafeCrashCollision (Vector3 position, Vector3 upVec, float value)
@@ -232,6 +250,12 @@ public class PlayerController : MonoBehaviour
 	#region Audio
 
 	public AudioSource ThrusterAudio;
+
+	public void AudioOn ()
+	{
+		ThrusterAudio.Play ();
+		ThrusterAudio.volume = 0f;
+	}
 
 	public void AudioOff ()
 	{
