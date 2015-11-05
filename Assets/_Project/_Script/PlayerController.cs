@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GameDataEditor;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class PlayerController : MonoBehaviour
 	public EngineController EngineLeft;
 	public EngineController EngineRight;
 
+	public float ExtraFuelValue;
 	public float MaxFuelValue;
+	// include stage base fuel
 	public float curFuelValue;
 
 	public float CurFuelValue {
@@ -37,7 +40,10 @@ public class PlayerController : MonoBehaviour
 
 	public void InitPlayer ()
 	{
-		CurFuelValue = MaxFuelValue;
+		string stage_id = GameController.GetInstance ().LastStartStageID;
+		GDEStageData stageData = DataController.GetInstance ().GetStageData (stage_id);
+
+//		CurFuelValue = ExtraFuelValue + stageData.b;
 	}
 
 	public void InputVector (Vector2 vec)
