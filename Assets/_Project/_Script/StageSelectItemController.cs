@@ -19,7 +19,7 @@ public class StageSelectItemController : MonoBehaviour
 		this.Data = item;
 		StageID.text = Data.stage_id;
 		ScoreValue.text = string.Format ("{0}", Data.score);
-
+		RemainFuel.text = string.Format ("Remain Fuel:{0:F2}", Data.remain_fuel);
 
 		ClearButton.gameObject.SetActive (false);
 	}
@@ -55,7 +55,6 @@ public class StageSelectItemController : MonoBehaviour
 		Data.score = 0;
 		GameDataEditor.GDEStageData stageData = DataController.GetInstance ().GetStageData (Data.stage_id);
 		stageData.high_score = 0;
-
 		Refresh (Data);
 	}
 }
@@ -70,6 +69,7 @@ public class StageSelectItem
 
 	public string stage_id;
 	public int score;
+	public float remain_fuel;
 
 	public bool detail_opened;
 }
