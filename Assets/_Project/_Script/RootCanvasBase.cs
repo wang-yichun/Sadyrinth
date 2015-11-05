@@ -7,13 +7,13 @@ public class RootCanvasBase : MonoBehaviour
 
 	public bool DebugLogOn;
 
-	public void Close ()
+	public virtual void Close ()
 	{
 		CanvasOutStart ();
 		this.gameObject.SetActive (false);
 	}
 
-	public void Open ()
+	public virtual void Open ()
 	{
 		this.gameObject.SetActive (true);
 		CanvasInEnd ();

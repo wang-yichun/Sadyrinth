@@ -11,7 +11,7 @@ public class UIController : MonoBehaviour
 	public RootCanvasBase Win;
 	public RootCanvasBase Lose;
 	public RootCanvasBase Setting;
-
+	public CanvasOKCancelBase SecretInput;
 
 	public bool IsStageDebug;
 
@@ -51,6 +51,8 @@ public class UIController : MonoBehaviour
 		Win.gameObject.SetActive (false);
 		Lose.gameObject.SetActive (false);
 		Setting.gameObject.SetActive (false);
+
+		SecretInput.gameObject.SetActive (false);
 	}
 
 	#region MainMenu
@@ -225,6 +227,21 @@ public class UIController : MonoBehaviour
 
 	public void Setting_ClearButton_OnClick ()
 	{
+		SecretInput.Open (new CanvasOKCancelInfo () {
+			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
+			CorrectSecretString = "ethan",
+			On_OK = () => {
+				ClearRecord ();
+			},
+			On_Cancel = () => {
+			},
+			parentCanvas = Setting
+		});
+	}
+
+	public void ClearRecord ()
+	{
+		
 		GDECommonData commonData = DataController.GetInstance ().Common;
 
 		for (int world_id = 1; world_id <= commonData.world_count; world_id++) {
@@ -247,8 +264,22 @@ public class UIController : MonoBehaviour
 
 	public void Setting_UnlockButton_OnClick ()
 	{
+		SecretInput.Open (new CanvasOKCancelInfo () {
+			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
+			CorrectSecretString = "ethan",
+			On_OK = () => {
+				UnlockStage ();
+			},
+			On_Cancel = () => {
+			},
+			parentCanvas = Setting	
+		});
+	}
+
+	public void UnlockStage ()
+	{
 		GDECommonData commonData = DataController.GetInstance ().Common;
-		
+
 		for (int world_id = 1; world_id <= commonData.world_count; world_id++) {
 			int worldStageCount = DataController.GetInstance ().WorldStageCount [world_id - 1];
 			for (int stage_id = 1; stage_id <= worldStageCount; stage_id++) {
