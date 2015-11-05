@@ -250,6 +250,7 @@ public class PlayerController : MonoBehaviour
 	#region Audio
 
 	public AudioSource ThrusterAudio;
+	public AudioSource SadyFullTipAudio;
 
 	public void AudioOn ()
 	{
