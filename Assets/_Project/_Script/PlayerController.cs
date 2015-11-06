@@ -234,8 +234,10 @@ public class PlayerController : MonoBehaviour
 
 			LastDoUnSafeFrictionCollisionPosition = position;
 			LastDoUnSafeFrictionCollisionTime = Time.time;
-		} else {
-			Debug.Log ("ignore similar sound");
+
+			if (DataController.GetInstance ().Common.sound) {
+				collisionFXObject.GetComponent<AudioSource> ().Play ();
+			}
 		}
 	}
 
@@ -245,6 +247,10 @@ public class PlayerController : MonoBehaviour
 		ParticleSystem collisionFX = collisionFXObject.GetComponent<ParticleSystem> ();
 		collisionFX.maxParticles = (int)Mathf.Lerp (1f, 30f, value);
 		collisionFX.transform.forward = upVec;
+
+		if (DataController.GetInstance ().Common.sound) {
+			collisionFXObject.GetComponent<AudioSource> ().Play ();
+		}
 	}
 
 	#region Audio
@@ -254,8 +260,10 @@ public class PlayerController : MonoBehaviour
 
 	public void AudioOn ()
 	{
-		ThrusterAudio.Play ();
-		ThrusterAudio.volume = 0f;
+		if (DataController.GetInstance ().Common.sound) {
+			ThrusterAudio.Play ();
+			ThrusterAudio.volume = 0f;
+		}
 	}
 
 	public void AudioOff ()

@@ -43,6 +43,34 @@ namespace GameDataEditor
             }
         }
 
+        private static string soundKey = "sound";
+		private bool _sound;
+        public bool sound
+        {
+            get { return _sound; }
+            set {
+                if (_sound != value)
+                {
+                    _sound = value;
+                    GDEDataManager.SetBool(_key+"_"+soundKey, _sound);
+                }
+            }
+        }
+
+        private static string musicKey = "music";
+		private bool _music;
+        public bool music
+        {
+            get { return _music; }
+            set {
+                if (_music != value)
+                {
+                    _music = value;
+                    GDEDataManager.SetBool(_key+"_"+musicKey, _music);
+                }
+            }
+        }
+
         private static string world_countKey = "world_count";
 		private int _world_count;
         public int world_count
@@ -113,6 +141,8 @@ namespace GameDataEditor
 			{
                 dict.TryGetBool(show_remain_fuelKey, out _show_remain_fuel);
                 dict.TryGetBool(long_tap_stage_record_clearKey, out _long_tap_stage_record_clear);
+                dict.TryGetBool(soundKey, out _sound);
+                dict.TryGetBool(musicKey, out _music);
                 dict.TryGetInt(world_countKey, out _world_count);
                 dict.TryGetString(versionKey, out _version);
                 dict.TryGetString(auto_selected_stage_idKey, out _auto_selected_stage_id);
@@ -128,6 +158,8 @@ namespace GameDataEditor
 			
             _show_remain_fuel = GDEDataManager.GetBool(_key+"_"+show_remain_fuelKey, _show_remain_fuel);
             _long_tap_stage_record_clear = GDEDataManager.GetBool(_key+"_"+long_tap_stage_record_clearKey, _long_tap_stage_record_clear);
+            _sound = GDEDataManager.GetBool(_key+"_"+soundKey, _sound);
+            _music = GDEDataManager.GetBool(_key+"_"+musicKey, _music);
             _world_count = GDEDataManager.GetInt(_key+"_"+world_countKey, _world_count);
             _version = GDEDataManager.GetString(_key+"_"+versionKey, _version);
             _auto_selected_stage_id = GDEDataManager.GetString(_key+"_"+auto_selected_stage_idKey, _auto_selected_stage_id);
@@ -151,6 +183,24 @@ namespace GameDataEditor
             Dictionary<string, object> dict;
             GDEDataManager.Get(_key, out dict);
             dict.TryGetBool(long_tap_stage_record_clearKey, out _long_tap_stage_record_clear);
+        }
+
+        public void Reset_sound()
+        {
+            GDEDataManager.ResetToDefault(_key, soundKey);
+
+            Dictionary<string, object> dict;
+            GDEDataManager.Get(_key, out dict);
+            dict.TryGetBool(soundKey, out _sound);
+        }
+
+        public void Reset_music()
+        {
+            GDEDataManager.ResetToDefault(_key, musicKey);
+
+            Dictionary<string, object> dict;
+            GDEDataManager.Get(_key, out dict);
+            dict.TryGetBool(musicKey, out _music);
         }
 
         public void Reset_world_count()
@@ -201,6 +251,8 @@ namespace GameDataEditor
             GDEDataManager.ResetToDefault(_key, auto_selected_stage_idKey);
             GDEDataManager.ResetToDefault(_key, show_remain_fuelKey);
             GDEDataManager.ResetToDefault(_key, long_tap_stage_record_clearKey);
+            GDEDataManager.ResetToDefault(_key, soundKey);
+            GDEDataManager.ResetToDefault(_key, musicKey);
 
             Reset_stage();
 

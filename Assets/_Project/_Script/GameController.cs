@@ -230,6 +230,10 @@ public class GameController : MonoBehaviour
 
 		MainCamera.Player = Player;
 
+		if (DataController.GetInstance ().Common.sound) {
+			StageRoot.GetComponent<AudioSource> ().Play ();
+		}
+
 //		public Transform StageRoot;
 //		public PlayerController Player;
 //		public Transform CollectableContainerTransform;
@@ -319,6 +323,13 @@ public class GameController : MonoBehaviour
 	public AudioSource TapAudio;
 	public AudioSource Tap2Audio;
 
+	public void PlaySound (AudioSource audioSource)
+	{
+		if (DataController.GetInstance ().Common.sound) {
+			audioSource.Play ();
+		}
+	}
+
 	public AudioSource MainThemeMusic;
 	public AudioSource InGameMusic;
 
@@ -326,6 +337,9 @@ public class GameController : MonoBehaviour
 
 	public void PlayMusic (AudioSource audioSource)
 	{
+		if (!DataController.GetInstance ().Common.music) {
+			audioSource = null;
+		}
 		if (CurrentlyMusic != null) {
 			if (audioSource == null) {
 				CurrentlyMusic.Stop ();

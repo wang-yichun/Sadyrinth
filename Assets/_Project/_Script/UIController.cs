@@ -64,7 +64,7 @@ public class UIController : MonoBehaviour
 
 	public void MainMenu_SettingButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		MainMenu.Close ();
 		Setting.Open ();
@@ -72,7 +72,7 @@ public class UIController : MonoBehaviour
 
 	public void MainMenu_PlayButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		MainMenu.Close ();
 		StageSelect.Open ();
@@ -84,7 +84,7 @@ public class UIController : MonoBehaviour
 
 	public void StageSelect_BackButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		StageSelect.Close ();
 		MainMenu.Open ();
@@ -92,7 +92,7 @@ public class UIController : MonoBehaviour
 
 	public void StageSelect_StartButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		string StageIDSelected = GetComponentInChildren<UIStageSelectController> ().StageIDSelected;
 
@@ -109,7 +109,7 @@ public class UIController : MonoBehaviour
 
 	public void InGame_PauseButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		GameController game = GameController.GetInstance ();
 
@@ -137,7 +137,7 @@ public class UIController : MonoBehaviour
 
 	public void PauseMenu_ResumeButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		PauseMenu.Close ();
 
@@ -147,7 +147,7 @@ public class UIController : MonoBehaviour
 
 	public void PauseMenu_MainMenuButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		PauseMenu.Close ();
 
@@ -159,7 +159,7 @@ public class UIController : MonoBehaviour
 
 	public void PauseMenu_ResetButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		PauseMenu.Close ();
 
@@ -175,7 +175,7 @@ public class UIController : MonoBehaviour
 
 	public void Win_MainMenuButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		GameController game = GameController.GetInstance ();
 		game.EndGame ();
@@ -187,7 +187,7 @@ public class UIController : MonoBehaviour
 
 	public void Win_ReplayButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		Win.Close ();
 
@@ -199,7 +199,7 @@ public class UIController : MonoBehaviour
 
 	public void Win_NextStageButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		Win.Close ();
 
@@ -225,7 +225,7 @@ public class UIController : MonoBehaviour
 
 	public void Lose_MainMenuButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		GameController game = GameController.GetInstance ();
 		game.EndGame ();
@@ -237,7 +237,7 @@ public class UIController : MonoBehaviour
 
 	public void Lose_TryAgainButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		Lose.Close ();
 
@@ -251,9 +251,31 @@ public class UIController : MonoBehaviour
 
 	#region setting
 
+	public void Setting_MusicButton_OnClick ()
+	{
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
+
+		DataController.GetInstance ().Common.music = !DataController.GetInstance ().Common.music;
+		(Setting as UISettingController).Refresh ();
+
+		if (DataController.GetInstance ().Common.music == false) {
+			GameController.GetInstance ().PlayMusic (null);
+		} else {
+			GameController.GetInstance ().PlayMusic (GameController.GetInstance ().MainThemeMusic);
+		}
+	}
+
+	public void Setting_SoundButton_OnClick ()
+	{
+		DataController.GetInstance ().Common.sound = !DataController.GetInstance ().Common.sound;
+		(Setting as UISettingController).Refresh ();
+
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
+	}
+
 	public void Setting_ClearButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		SecretInput.Open (new CanvasOKCancelInfo () {
 			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
@@ -292,7 +314,7 @@ public class UIController : MonoBehaviour
 
 	public void Setting_UnlockButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		SecretInput.Open (new CanvasOKCancelInfo () {
 			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",
@@ -325,7 +347,7 @@ public class UIController : MonoBehaviour
 
 	public void Setting_MainMenuButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		Setting.Close ();
 		MainMenu.Open ();
@@ -333,7 +355,7 @@ public class UIController : MonoBehaviour
 
 	public void Setting_EnterCodeButton_OnClick ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		SecretInput.Open (new CanvasOKCancelInfo () {
 			ContentInfo = "This function is designed for desigeners.\nSo we need a secret code to continue.",

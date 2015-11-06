@@ -10,7 +10,9 @@ public class UILoseController : RootCanvasBase
 	{
 		base.CanvasInEnd ();
 
-		GetComponent<AudioSource> ().Play ();
+		if (DataController.GetInstance ().Common.sound) {
+			GetComponent<AudioSource> ().Play ();
+		}
 	}
 
 	public override void CanvasOutStart ()

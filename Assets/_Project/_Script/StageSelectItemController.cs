@@ -64,7 +64,7 @@ public class StageSelectItemController : MonoBehaviour
 
 	public void SelfButton_OnClicked ()
 	{
-		GameController.GetInstance ().Tap2Audio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().Tap2Audio);
 
 		NotificationCenter.DefaultCenter.PostNotification (this, "stage_button_click", new Hashtable () {
 			{ "stage_id", Data.stage_id }
@@ -73,7 +73,7 @@ public class StageSelectItemController : MonoBehaviour
 
 	public void ETT_OpenStageButtonDetailMenu ()
 	{
-		GameController.GetInstance ().TapAudio.Play ();
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
 
 		OpenDetailMenu ();
 		(GameController.GetInstance ().UIController.StageSelect as UIStageSelectController).IgnoreCloseMenu++;
@@ -81,6 +81,8 @@ public class StageSelectItemController : MonoBehaviour
 
 	public void ClearButton_OnClicked ()
 	{
+		GameController.GetInstance ().PlaySound (GameController.GetInstance ().TapAudio);
+
 		Data.score = 0;
 		GameDataEditor.GDEStageData stageData = DataController.GetInstance ().GetStageData (Data.stage_id);
 		stageData.high_score = 0;

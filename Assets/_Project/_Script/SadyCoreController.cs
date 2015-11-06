@@ -12,7 +12,9 @@ public class SadyCoreController : MonoBehaviour
 			Sady.GetByPlayer (other.attachedRigidbody.gameObject);
 
 			if (GameController.GetInstance ().RemainSadyCount == 0) {
-				GameController.GetInstance ().Player.SadyFullTipAudio.PlayDelayed (1f);
+				if (DataController.GetInstance ().Common.sound) {
+					GameController.GetInstance ().Player.SadyFullTipAudio.PlayDelayed (1f);
+				}
 			}
 		}
 	}

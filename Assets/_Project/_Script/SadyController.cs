@@ -25,7 +25,12 @@ public class SadyController : MonoBehaviour
 
 	public void GetByPlayer (GameObject player)
 	{
-		Instantiate (GotFXPrefab, transform.position, Quaternion.identity);
+		GameObject fxGameObject = Instantiate (GotFXPrefab, transform.position, Quaternion.identity) as GameObject;
+
+		if (DataController.GetInstance ().Common.sound) {
+			fxGameObject.GetComponent<AudioSource> ().Play ();
+		}
+
 		gameObject.SetActive (false);
 
 		GameController.GetInstance ().RemainSadyCount--;
