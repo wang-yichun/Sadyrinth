@@ -42,8 +42,8 @@ sysinfo.txt
 # Project generated #
 # ================= #
 
-/AEXiOSProj
-/AEXAndroidProj
-/AEXAndroidProj.*
 /CodePatch
+
 Builds/SadyrinthAndroid.apk
+Builds/SadyrinthMac.app
+

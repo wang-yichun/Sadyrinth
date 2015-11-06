@@ -6,6 +6,8 @@ using System.Linq;
 using DG.Tweening;
 using GameDataEditor;
 
+using UnityEngine.Advertisements;
+
 public class UIStageSelectController : RootCanvasBase
 {
 	public Transform ContentTransform;
@@ -34,6 +36,8 @@ public class UIStageSelectController : RootCanvasBase
 		EasyTouch.On_TouchUp += ET_CloseStageButtonDetailMenu;
 
 		IgnoreCloseMenu = 0;
+
+		ShowAd ();
 	}
 
 	public override void CanvasOutStart ()
@@ -144,7 +148,24 @@ public class UIStageSelectController : RootCanvasBase
 		} else {
 			IgnoreCloseMenu--;
 		}
-
 	}
+
+	#region Ad test
+
+	public void ShowAd ()
+	{
+
+		#if UNITY_ANDROID || UNITY_IPHONE
+
+		if (Advertisement.IsReady ()) {
+			Advertisement.Show ();
+		}
+
+		#endif
+	}
+
+
+
+	#endregion
 }
 
