@@ -36,8 +36,6 @@ public class UIStageSelectController : RootCanvasBase
 		EasyTouch.On_TouchUp += ET_CloseStageButtonDetailMenu;
 
 		IgnoreCloseMenu = 0;
-
-		ShowAd ();
 	}
 
 	public override void CanvasOutStart ()
@@ -163,8 +161,6 @@ public class UIStageSelectController : RootCanvasBase
 
 		#endif
 	}
-
-
 
 	#endregion
 }
